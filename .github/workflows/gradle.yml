@@ -68,5 +68,5 @@ jobs:
         --application-name friend \
         --deployment-group-name friend-group \
         --file-exists-behavior OVERWRITE \
-        --s3-location bucket=friend-deploy[S3버킷이름],bundleType=zip,key=friend.zip \ 
+        --s3-location bucket=friend-deploy,bundleType=zip,key=friend.zip \ 
         --region ap-northeast-2
