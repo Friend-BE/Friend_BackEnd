@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:mysql://nanchoidb.cnzxc5x3qe0b.ap-northeast-2.rds.amazonaws.com:3306/MVP_IA
+    username: admin
+    password: Choi100~
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
+    open-in-view: false
