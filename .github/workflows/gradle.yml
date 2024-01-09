@@ -3,18 +3,18 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Spring Boot & Gradle CI/CD 
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
-permissions:
-  contents: read
+env:
+  S3_BUCKET_NAME: friend-deploy
 
 jobs:
   build:
@@ -22,16 +22,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+    
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         java-version: '17'
         distribution: 'temurin'
+        
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    
     - name: Build with Gradle
-      #uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      #with:
-       # arguments: build
-      run : ./gradlew clean build --exclude-task test
+      run: ./gradlew clean build
+      
+    # 디렉토리 생성
+    - name: Make Directory
+      run: mkdir -p deploy
+        
+    # Jar 파일 복사
+    - name: Copy Jar
+      run: cp ./build/libs/*.jar ./deploy
+
+    - name: Make zip file
+      run: zip -r ./coinTalk.zip ./deploy
+      shell: bash
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./friend.zip s3://$S3_BUCKET_NAME/
