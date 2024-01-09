@@ -63,10 +63,10 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run:
-        aws deploy create-deployment \
-        --application-name Friend \
-        --deployment-group-name friend \
-        --file-exists-behavior OVERWRITE \
-        --s3-location bucket=friend-deploy,bundleType=zip,key=friend.zip \ 
+      run: |
+        aws deploy create-deployment\
+        --application-name Friend\
+        --deployment-group-name friend\
+        --file-exists-behavior OVERWRITE\
+        --s3-location bucket=friend-deploy,bundleType=zip,key=friend.zip\ 
         --region ap-northeast-2
