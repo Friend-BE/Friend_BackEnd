@@ -16,7 +16,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   AWS_S3_BUCKET: app-release-file
-  AWS_CODE_DEPLOY_APPLICATION: cicid-test-CD
+  AWS_CODE_DEPLOY_APPLICATION: cicd-test-CD
   AWS_CODE_DEPLOY_GROUP: cicd-test-CD-group
 
 jobs:
