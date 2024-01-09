@@ -65,7 +65,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws deploy create-deployment \
-        --application-name friend \
+        --application-name Friend \
         --deployment-group-name friend-group \
         --file-exists-behavior OVERWRITE \
         --s3-location bucket=friend-deploy,bundleType=zip,key=friend.zip \ 
