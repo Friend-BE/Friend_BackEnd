@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-    @GetMapping("/")
-    public String Basic() {
-        return "베이직테스트입니다";
+    @GetMapping("/login")
+    public String Login() {
+        return "loginPage";
     }
 
     @GetMapping("/hello")
