@@ -16,3 +16,5 @@ spring:
           auto: update
         default_batch_fetch_size: 1000
     open-in-view: false
+univCert:
+  key: 1ae13bff-4cb3-46ec-85a0-b38a7f8cfc57
