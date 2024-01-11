@@ -36,6 +36,25 @@ jobs:
       
     - name: 프로젝트 빌드
       run: ./gradlew clean build -x test
+
+    # Spring Boot 어플리케이션 Build (1)
+    - name: Spring Boot Build
+      run: ./gradlew clean build --exclude-task test
+    
+    # Docker 이미지 Build (2)
+    - name: docker image build
+      run: docker build -t chaesc1223/friend-umc .
+    
+    # DockerHub Login (3)
+    - name: docker login 
+      uses: docker/login-action@v2
+      with: 
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # Docker Hub push (4)
+    - name: docker Hub push
+      run: docker push chaesc1223/friend-umc
       
     - name: AWS credential 설정
       uses: aws-actions/configure-aws-credentials@v1
