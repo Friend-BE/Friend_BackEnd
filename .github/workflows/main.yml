@@ -43,7 +43,7 @@ jobs:
     
     # Docker 이미지 Build (2)
     - name: docker image build
-      run: docker build -t chaesc1223/friend-umc .
+      run: docker build -t chaesc1223/friend-umc-ci .
     
     # DockerHub Login (3)
     - name: docker login 
@@ -54,7 +54,7 @@ jobs:
 
     # Docker Hub push (4)
     - name: docker Hub push
-      run: docker push chaesc1223/friend-umc
+      run: docker push chaesc1223/friend-umc-ci
       
     - name: AWS credential 설정
       uses: aws-actions/configure-aws-credentials@v1
