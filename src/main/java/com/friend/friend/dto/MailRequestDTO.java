@@ -1,6 +1,6 @@
 package com.friend.friend.dto;
 
-public class MailRequestDto {
+public class MailRequestDTO {
     private String email;
     private String univName;
     private int code;
