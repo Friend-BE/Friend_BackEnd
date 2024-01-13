@@ -17,7 +17,7 @@ public class MainController {
     }
     @GetMapping("/test")
     public String test(){
-        return "테스트테스트채정훈";
+        return "테스트테스트채정훈2222";
     }
     public String test2(){
         return "테스트테스트최민석";
