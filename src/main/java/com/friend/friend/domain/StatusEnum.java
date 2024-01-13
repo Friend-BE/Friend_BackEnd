@@ -1,4 +1,4 @@
-package com.friend.friend.domain.enums;
+package com.friend.friend.domain;
 
 public enum StatusEnum {
     OK(200, "OK"),
