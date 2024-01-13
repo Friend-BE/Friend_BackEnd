@@ -19,5 +19,8 @@ public class MainController {
     public String test(){
         return "테스트테스트채정훈";
     }
+    public String test2(){
+        return "테스트테스트최민석";
+    }
 
 }
