@@ -1,14 +1,10 @@
 package com.friend.friend.dto;
 
+import lombok.Getter;
+
+@Getter
 public class MailDTO {
     private String email;
     private String univName;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUnivName() {
-        return univName;
-    }
 }
