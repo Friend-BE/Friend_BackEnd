@@ -1,6 +1,6 @@
 package com.friend.friend.controller;
 
-import com.friend.friend.domain.UnivCertResponse;
+import com.friend.friend.domain.ApiResponse;
 import com.friend.friend.domain.enums.HTTPResponseEnum;
 import com.friend.friend.dto.MailDTO;
 import com.univcert.api.UnivCert;
@@ -24,7 +24,7 @@ public class UnivCertController {
     private String key;
 
     @PostMapping("/certify/send")
-    public ResponseEntity<UnivCertResponse> sendUnivCertMail(@RequestBody MailDTO mailDTO) throws IOException {
+    public ResponseEntity<ApiResponse> sendUnivCertMail(@RequestBody MailDTO mailDTO) throws IOException {
         UnivCert.clear(key, mailDTO.getEmail());
         Map<String, Object> check = UnivCert.check(mailDTO.getUnivName());
         boolean univ_check = (boolean) check.get("success");
@@ -32,7 +32,7 @@ public class UnivCertController {
         Map<String, Object> result = UnivCert.certify(key, mailDTO.getEmail(), mailDTO.getUnivName(), univ_check);
         boolean emailSuccess = (boolean) result.get("success");
 
-        UnivCertResponse message = new UnivCertResponse();
+        ApiResponse message = new ApiResponse();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
@@ -49,14 +49,14 @@ public class UnivCertController {
 
 
     @GetMapping("/certify/verify")
-    public ResponseEntity<UnivCertResponse> validMailCode(@RequestParam String email,
-                                                          @RequestParam String univName,
-                                                          @RequestParam int code) throws IOException {
+    public ResponseEntity<ApiResponse> validMailCode(@RequestParam String email,
+                                                     @RequestParam String univName,
+                                                     @RequestParam int code) throws IOException {
 
         Map<String, Object> response = UnivCert.certifyCode(key, email, univName, code);
         boolean success = (boolean) response.get("success");
 
-        UnivCertResponse message = new UnivCertResponse();
+        ApiResponse message = new ApiResponse();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 

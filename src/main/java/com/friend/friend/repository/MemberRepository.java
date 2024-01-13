@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.math.BigInteger;
 
 public interface MemberRepository extends JpaRepository<Member, BigInteger> {
+    Member findByEmail(String email);
+    Member findByPhone(String number);
 }
 
