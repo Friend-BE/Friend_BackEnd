@@ -1,2 +1,5 @@
-package com.friend.friend.domain.enums;public enum RoleEnum {
+package com.friend.friend.domain.enums;
+
+public enum RoleEnum {
+    USER,ADMIN
 }

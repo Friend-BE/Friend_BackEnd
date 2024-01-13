@@ -1,2 +1,5 @@
-package com.friend.friend.domain.enums;public enum SmokingEnum {
+package com.friend.friend.domain.enums;
+
+public enum SmokingEnum {
+    SMOKER,NONSMOKER
 }
