@@ -1,7 +1,7 @@
 package com.friend.friend.controller;
 
 import com.friend.friend.domain.UnivCertResponse;
-import com.friend.friend.domain.StatusEnum;
+import com.friend.friend.domain.enums.HTTPResponseEnum;
 import com.friend.friend.dto.MailDTO;
 import com.univcert.api.UnivCert;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +37,10 @@ public class UnivCertController {
         httpHeaders.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
         if (emailSuccess) {
-            message.setStatus(StatusEnum.OK);
+            message.setStatus(HTTPResponseEnum.OK);
             message.setMessage("Success at sending mail");
         } else {
-            message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setStatus(HTTPResponseEnum.BAD_REQUEST);
             message.setMessage("Error at sending mail");
         }
 
@@ -61,11 +61,11 @@ public class UnivCertController {
         httpHeaders.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
         if (success) {
-            message.setStatus(StatusEnum.OK);
+            message.setStatus(HTTPResponseEnum.OK);
             message.setMessage("Email verification succeeded.");
             return new ResponseEntity<>(message, httpHeaders, HttpStatus.OK);
         } else {
-            message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setStatus(HTTPResponseEnum.BAD_REQUEST);
             message.setMessage("Email verification failed.");
             return new ResponseEntity<>(message, httpHeaders, HttpStatus.BAD_REQUEST);
         }

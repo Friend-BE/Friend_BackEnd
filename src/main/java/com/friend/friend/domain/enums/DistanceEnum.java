@@ -1,2 +1,5 @@
-package com.friend.friend.domain.enums;public enum DistanceEnum {
+package com.friend.friend.domain.enums;
+
+public enum DistanceEnum {
+    SHORT,LONG
 }
