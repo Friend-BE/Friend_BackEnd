@@ -15,5 +15,9 @@ public class MainController {
     public String helloWorld() {
         return "배포테스트입니다";
     }
+    @GetMapping("/test")
+    public String test(){
+        return "테스트테스트";
+    }
 
 }
