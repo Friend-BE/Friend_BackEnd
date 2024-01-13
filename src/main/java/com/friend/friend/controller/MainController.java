@@ -21,7 +21,7 @@ public class MainController {
     }
     public String test2(){
 
-        return "테스트123";
+        return "테스트";
     }
 
 }
