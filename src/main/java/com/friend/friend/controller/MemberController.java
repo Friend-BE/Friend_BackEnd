@@ -16,7 +16,7 @@ public class MemberController {
 
     @GetMapping("member/insert")
     public void insertMember(){
-        memberService.insertMember();
+//        memberService.insertMember();
     }
 
 }
