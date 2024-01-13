@@ -13,8 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Member extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String email;
     private String password;
@@ -24,7 +25,7 @@ public class Member extends BaseEntity {
     private String phone;
     private String birthday;
     private GenderEnum gender;
-    private double height;
+    private Double height;
     private String region;
     private String department;
     private DistanceEnum distance;
