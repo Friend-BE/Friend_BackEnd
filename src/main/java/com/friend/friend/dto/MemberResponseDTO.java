@@ -20,12 +20,29 @@ public class MemberResponseDTO {
         LocalDateTime createdAt;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResultDTO{
+        Long memberId;
+        String status;
+        String role;
+    }
+
     public static MemberResponseDTO.JoinResultDTO toJoinResultDTO(Member member){
         return MemberResponseDTO.JoinResultDTO.builder()
                 .memberId(member.getId())
                 .status(member.getStatus().toString())
                 .role(member.getRole().toString())
                 .createdAt(member.getCreatedAt())
+                .build();
+    }
+    public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(Member member){
+        return LoginResultDTO.builder()
+                .memberId(member.getId())
+                .status(member.getStatus().toString())
+                .role(member.getRole().toString())
                 .build();
     }
 }

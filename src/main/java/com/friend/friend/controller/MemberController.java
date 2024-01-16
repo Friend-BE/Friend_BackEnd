@@ -37,5 +37,14 @@ public class MemberController {
 
         return MemberResponseDTO.toJoinResultDTO(member);
     }
+    @PostMapping("/login")
+    public MemberResponseDTO.LoginResultDTO loginMember(@RequestBody MemberRequestDTO.LoginMemberDTO request) throws Exception {
+        Member member = memberService.findByEmail(request.getEmail());
 
+        if (member != null && passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            return MemberResponseDTO.toLoginResultDTO(member);
+        } else {
+            return null;
+        }
+    }
 }

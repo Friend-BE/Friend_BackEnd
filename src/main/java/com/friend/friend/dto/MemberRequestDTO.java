@@ -29,4 +29,9 @@ public class MemberRequestDTO {
         String nonage;
         String image;
     }
+    @Getter
+    public static class LoginMemberDTO{
+        String email;
+        String password;
+    }
 }
