@@ -13,7 +13,7 @@ spring:
         show_sql: true
         format_sql: true
         hbm2ddl:
-          auto: update
+          auto: create
         default_batch_fetch_size: 1000
     open-in-view: false
 univCert:

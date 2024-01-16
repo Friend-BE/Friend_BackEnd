@@ -6,6 +6,8 @@ import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.service.FireBaseService;
 import com.friend.friend.service.MemberService;
 import com.google.firebase.auth.FirebaseAuthException;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,26 +27,31 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("member/insert")
-    public void insertMember(){
+    public void insertMember() {
 //        memberService.insertMember();
     }
 
     @PostMapping("/users")
-    public MemberResponseDTO.JoinResultDTO joinMember(@RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,@RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
-        String imgUrl = fireBaseService.uploadFiles(file,request.getNickname());
-        Member member = Member.toMember(request, passwordEncoder,imgUrl);
+    public MemberResponseDTO.JoinResultDTO joinMember(
+            @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
+            @RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
+        String imgUrl = fireBaseService.uploadFiles(file, request.getNickname());
+        Member member = Member.toMember(request, passwordEncoder, imgUrl);
         memberService.join(member);
 
         return MemberResponseDTO.toJoinResultDTO(member);
     }
-    @PostMapping("/login")
-    public MemberResponseDTO.LoginResultDTO loginMember(@RequestBody MemberRequestDTO.LoginMemberDTO request) throws Exception {
-        Member member = memberService.findByEmail(request.getEmail());
 
-        if (member != null && passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            return MemberResponseDTO.toLoginResultDTO(member);
-        } else {
-            return null;
-        }
+    @PostMapping("/login")
+    public MemberResponseDTO.LoginResultDTO loginMember(@RequestBody MemberRequestDTO.LoginMemberDTO request)
+            throws Exception {
+        Optional<Member> member = memberService.findByEmail(request.getEmail());
+
+//        if (member != null && passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+//            return MemberResponseDTO.toLoginResultDTO(member);
+//        } else {
+//            return null;
+//        }
+        return null;
     }
 }
