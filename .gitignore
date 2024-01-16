@@ -4,7 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
 ### STS ###
 .apt_generated
 .classpath
@@ -38,3 +37,4 @@ out/
 
 ###
 src/main/resources/serviceAccountKey.json
+src/main/java/com/friend/friend/config/FireBaseConfig.java
