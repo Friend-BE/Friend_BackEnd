@@ -11,14 +11,11 @@ import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 @Configuration
 public class FireBaseConfig {
-    @Value("${app.firebase-configuration-file}")
-    private Resource resource;
-
     @PostConstruct
     public void initFirebase() {
         try {
             FileInputStream serviceAccount =
-                    new FileInputStream("/home/ubuntu/app/key/serviceAccountKey.json");
+                    new FileInputStream("home/ubuntu/app/key/serviceAccountKey.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
