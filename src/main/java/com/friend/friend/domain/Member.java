@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 public class Member extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +46,12 @@ public class Member extends BaseEntity {
 
     public Member() {}
 
-    public static Member toMember(MemberRequestDTO.MemberJoinDTO request, PasswordEncoder passwordEncoder) {
+    public static Member toMember(MemberRequestDTO.MemberJoinDTO request, PasswordEncoder passwordEncoder,String imgurl) {
         RoleEnum role = (request.getRole() == 0) ? RoleEnum.USER : RoleEnum.ADMIN;
         GenderEnum gender = (request.getGender() == 0) ? GenderEnum.FEMALE : GenderEnum.MALE;
         DistanceEnum distance = (request.getDistance() == 0) ? DistanceEnum.LONG : DistanceEnum.SHORT;
         SmokingEnum smoking = (request.getSmoking() == 0) ? SmokingEnum.SMOKER : SmokingEnum.NONSMOKER;
         DrinkingEnum drinking = (request.getDrinking() == 0) ? DrinkingEnum.DRINKER : DrinkingEnum.NONDRINKER;
-
         return Member.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -72,7 +72,7 @@ public class Member extends BaseEntity {
                 .nondepartment(request.getNondepartment())
                 .nonstudentid(request.getNonstudentid())
                 .nonage(request.getNonage())
-                .image(request.getImage())
+                .image(imgurl)
                 .build();
     }
 }
