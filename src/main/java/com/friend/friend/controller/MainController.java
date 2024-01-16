@@ -22,4 +22,8 @@ public class MainController {
         return "테스트테스트채정훈222222222";
     }
 
+    public String test2(){
+
+        return "테스트";
+    }
 }
