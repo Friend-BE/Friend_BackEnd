@@ -10,12 +10,16 @@ import com.friend.friend.repository.QaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final QaRepository qaRepository;
+
+
 
     //Test용 메서드입니다. 나중에 수정하셔야해요!!
     public void insertMember(){
@@ -89,4 +93,17 @@ public class MemberService {
         postRepository.save(postWithQa);
     }
 
+    /**
+     * email을 통해서 member 객체 받아온다.
+     */
+    public Member getMemberByEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if(member.isPresent()){
+            return member.get();
+        }
+        else{
+            return null;  //임시로 박아놓음
+        }
+    }
 }
