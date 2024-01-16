@@ -3,6 +3,7 @@ package com.friend.friend.repository;
 import com.friend.friend.domain.Member;
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -33,12 +34,13 @@ public class MemberRepository {
                 .setParameter("name", name)
                 .getResultList();
     }
-    public Member findByEmail(String email) {
-        return em.createQuery("SELECT m FROM Member m WHERE m."
+    public Optional<Member> findByEmail(String email) {
+        List<Member> singleResult = em.createQuery("SELECT m FROM Member m WHERE m."
                         + "email = :email", Member.class)
                 .setParameter("email", email)
-                .getSingleResult();
-    }
+                .getResultList();
 
+        return singleResult.stream().findAny();
+    }
 }
 
