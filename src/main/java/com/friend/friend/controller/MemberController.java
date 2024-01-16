@@ -45,13 +45,16 @@ public class MemberController {
     @PostMapping("/login")
     public MemberResponseDTO.LoginResultDTO loginMember(@RequestBody MemberRequestDTO.LoginMemberDTO request)
             throws Exception {
-        Optional<Member> member = memberService.findByEmail(request.getEmail());
+        List<Member> member = memberService.findByEmail(request.getEmail());
 
-//        if (member != null && passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-//            return MemberResponseDTO.toLoginResultDTO(member);
-//        } else {
-//            return null;
-//        }
+        if (member.size() == 0) {
+            return null;
+        } else {
+            if (passwordEncoder.matches(request.getPassword(), member.get(0).getPassword())) {
+                return MemberResponseDTO.toLoginResultDTO(member.get(0));
+            }
+        }
+
         return null;
     }
 }
