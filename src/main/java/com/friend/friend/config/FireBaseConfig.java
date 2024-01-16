@@ -17,7 +17,7 @@ public class FireBaseConfig {
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://friend-327a9.appspot.com.com")
+                    .setDatabaseUrl("https://friend-327a9.appspot.com")
                     .build();
             FirebaseApp.initializeApp(options);
 
