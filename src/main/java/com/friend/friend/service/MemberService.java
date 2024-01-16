@@ -31,7 +31,7 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         //Exception
-        Optional<Member> findMembers = memberRepository.findByEmail(member.getEmail());
+        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
 
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다");
@@ -53,7 +53,7 @@ public class MemberService {
         member.setNickname(name);
     }
     @Transactional
-    public Optional<Member> findByEmail(String email){
+    public List<Member> findByEmail(String email){
         return memberRepository.findByEmail(email);
     }
 }
