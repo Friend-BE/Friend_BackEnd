@@ -15,7 +15,8 @@ import org.springframework.stereotype.Repository;
 public class MemberRepository {
 
     private final EntityManager em;
-    public void save(Member member){
+
+    public void save(Member member) {
         em.persist(member);
     }
 
@@ -34,13 +35,12 @@ public class MemberRepository {
                 .setParameter("name", name)
                 .getResultList();
     }
-    public Optional<Member> findByEmail(String email) {
-        List<Member> singleResult = em.createQuery("SELECT m FROM Member m WHERE m."
+
+    public List<Member> findByEmail(String email) {
+        return em.createQuery("SELECT m FROM Member m WHERE m."
                         + "email = :email", Member.class)
                 .setParameter("email", email)
                 .getResultList();
-
-        return singleResult.stream().findAny();
     }
 }
 
