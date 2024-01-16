@@ -19,5 +19,5 @@ spring:
 univCert:
   key: 1ae13bff-4cb3-46ec-85a0-b38a7f8cfc57
 app:
-  firebase-configuration-file: ./serviceAccountKey.json
+  firebase-configuration-file: ./key/serviceAccountKey.json
   firebase-bucket: friend-327a9.appspot.com
