@@ -51,4 +51,8 @@ public class MemberService {
         Member member = memberRepository.findOne(id);
         member.setNickname(name);
     }
+    @Transactional
+    public Member findByEmail(String email){
+        return memberRepository.findByEmail(email);
+    }
 }
