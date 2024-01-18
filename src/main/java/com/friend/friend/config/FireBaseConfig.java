@@ -14,7 +14,6 @@ public class FireBaseConfig {
         try {
             FileInputStream serviceAccount =
                     new FileInputStream("/home/ubuntu/app/key/serviceAccountKey.json");
-//                    new FileInputStream("src/main/resources/serviceAccountKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://friend-327a9.appspot.com")
