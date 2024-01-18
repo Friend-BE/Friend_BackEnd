@@ -1,6 +1,9 @@
 package com.friend.friend.dto;
 
 import com.friend.friend.domain.Member;
+import com.friend.friend.domain.enums.DistanceEnum;
+import com.friend.friend.domain.enums.DrinkingEnum;
+import com.friend.friend.domain.enums.SmokingEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +12,25 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 public class MemberResponseDTO {
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class profileDTO{
+        String nickname;
+        String birthday;
+        double height;
+        String region;
+        DistanceEnum distance;
+        SmokingEnum smoking;
+        DrinkingEnum drinking;
+        String department;
+        String introduction;
+
+    }
+
+    
     @Builder
     @Getter
     @NoArgsConstructor
