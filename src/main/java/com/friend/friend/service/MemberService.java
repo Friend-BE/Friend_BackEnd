@@ -3,7 +3,6 @@ package com.friend.friend.service;
 import com.friend.friend.domain.Member;
 import com.friend.friend.repository.MemberRepository;
 import com.friend.friend.repository.PostRepository;
-import com.friend.friend.repository.QaRepository;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final QaRepository qaRepository;
 
     /**
      * email을 통해서 member 객체 받아온다.

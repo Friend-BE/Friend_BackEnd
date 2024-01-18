@@ -17,4 +17,5 @@ public abstract class Post extends BaseEntity {
     private Long id;
     private String title;   //제목
     private String body;    //본문
+    private String author;    //작성자
 }
