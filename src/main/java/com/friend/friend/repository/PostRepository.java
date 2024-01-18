@@ -1,9 +1,19 @@
 package com.friend.friend.repository;
 
-
 import com.friend.friend.domain.board.Post;
-import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
-
+@Repository
+@RequiredArgsConstructor
+public class PostRepository {
+    private final EntityManager em;
+    public void save(Post post){
+        if(post.getId()==null){
+            em.persist(post);
+        }else{
+            em.merge(post);
+        }
+    }
 }
