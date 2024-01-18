@@ -37,3 +37,4 @@ out/
 
 ###
 src/main/resources/serviceAccountKey.json
+.DS_Store
