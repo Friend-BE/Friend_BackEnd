@@ -26,10 +26,10 @@ public class UnivCertController {
     @PostMapping("/certify/send")
     public ResponseEntity<UnivCertResponse> sendUnivCertMail(@RequestBody MailDTO mailDTO) throws IOException {
         UnivCert.clear(key, mailDTO.getEmail());
-        Map<String, Object> check = UnivCert.check(mailDTO.getUnivName());
+        Map<String, Object> check = UnivCert.check("부경대학교");
         boolean univ_check = (boolean) check.get("success");
 
-        Map<String, Object> result = UnivCert.certify(key, mailDTO.getEmail(), mailDTO.getUnivName(), univ_check);
+        Map<String, Object> result = UnivCert.certify(key, mailDTO.getEmail(), "부경대학교", univ_check);
         boolean emailSuccess = (boolean) result.get("success");
 
         UnivCertResponse message = new UnivCertResponse();
@@ -50,10 +50,9 @@ public class UnivCertController {
 
     @GetMapping("/certify/verify")
     public ResponseEntity<UnivCertResponse> validMailCode(@RequestParam String email,
-                                                          @RequestParam String univName,
                                                           @RequestParam int code) throws IOException {
 
-        Map<String, Object> response = UnivCert.certifyCode(key, email, univName, code);
+        Map<String, Object> response = UnivCert.certifyCode(key, email, "부경대학교", code);
         boolean success = (boolean) response.get("success");
 
         UnivCertResponse message = new UnivCertResponse();
