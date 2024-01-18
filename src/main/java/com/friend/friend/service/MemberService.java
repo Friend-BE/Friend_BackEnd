@@ -21,6 +21,20 @@ public class MemberService {
     private final PostRepository postRepository;
     private final QaRepository qaRepository;
 
+    /**
+     * email을 통해서 member 객체 받아온다.
+     */
+    public Member getMemberByEmail(String email) {
+        List<Member> member = memberRepository.findByEmail(email);
+
+        if(!member.isEmpty()){
+            return member.get(0);
+        }
+        else{
+            return null;  //임시로 박아놓음
+        }
+    }
+
     //회원 가입 기능
     @Transactional //readOnly = false -> default
     public Long join(Member member) {
