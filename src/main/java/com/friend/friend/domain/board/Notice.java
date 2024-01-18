@@ -1,4 +1,4 @@
-package com.friend.friend.domain;
+package com.friend.friend.domain.board;
 
 import com.friend.friend.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -12,15 +12,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Notice extends BaseEntity {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "notice_id")
-    private String id;
-
-    private String author; // 작성자
-    private String title;
+public class Notice extends Post {
     private String password;
-    private String body;
 }
