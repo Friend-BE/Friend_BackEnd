@@ -1,6 +1,6 @@
 package com.friend.friend.service;
 
-import com.friend.friend.domain.board.Post;
+import com.friend.friend.domain.board.Board;
 import com.friend.friend.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void savePost(Post post){
-        boardRepository.save(post);
+    public Long saveBoard(Board board){
+        boardRepository.save(board);
+        return board.getId();
+    }
+    public Board findOne(Long boardId){
+        return boardRepository.findOne(boardId);
     }
 }
