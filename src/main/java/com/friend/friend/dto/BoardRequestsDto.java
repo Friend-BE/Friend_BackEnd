@@ -1,5 +1,6 @@
 package com.friend.friend.dto;
 
+import com.friend.friend.domain.board.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,15 +12,9 @@ public class BoardRequestsDto {
     private String author;
     private String password;
 
-    public BoardRequestsDto(String title, String body, String author){
-        this.title=title;
-        this.body=body;
-        this.author=author;
-    }
-    public BoardRequestsDto(String title, String body, String author,String password){
-        this.title=title;
-        this.body=body;
-        this.author=author;
-        this.password=password;
+    public BoardRequestsDto(Review board){
+        this.title=board.getTitle();
+        this.body=board.getBody();
+        this.author=board.getAuthor();
     }
 }
