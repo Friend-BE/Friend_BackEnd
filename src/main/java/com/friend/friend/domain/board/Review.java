@@ -9,6 +9,6 @@ import lombok.Setter;
 @Entity
 @DiscriminatorValue("review")
 @Getter @Setter
-public class Review extends Post{
-
+public class Review extends Board {
+    private Long views;
 }

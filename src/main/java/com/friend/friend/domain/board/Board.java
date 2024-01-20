@@ -1,9 +1,7 @@
 package com.friend.friend.domain.board;
 
 import com.friend.friend.common.BaseEntity;
-import com.friend.friend.domain.Member;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +9,7 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 @Getter @Setter
-public abstract class Post extends BaseEntity {
+public abstract class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
