@@ -1,6 +1,7 @@
 package com.friend.friend.dto;
 
 import com.friend.friend.domain.board.Board;
+import com.friend.friend.domain.board.Notice;
 import java.time.LocalDateTime;
 
 import com.friend.friend.domain.board.Review;
@@ -27,9 +28,11 @@ public class BoardResponseDto {
         this.author = board.getAuthor();
         this.createdAt = board.getCreatedAt();
         this.updatedAt = board.getUpdatedAt();
-        this.views=board.getViews();
+        this.views = board.getViews();
     }
+
     public static BoardResponseDto convertBoardResponseDTO(Review board) {
-        return new BoardResponseDto(board.getId(), board.getTitle(), board.getBody(), board.getAuthor(),board.getViews(), board.getCreatedAt(), board.getUpdatedAt());
+        return new BoardResponseDto(board.getId(), board.getTitle(), board.getBody(), board.getAuthor(),
+                board.getViews(), board.getCreatedAt(), board.getUpdatedAt());
     }
 }
