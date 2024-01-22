@@ -8,6 +8,8 @@ import com.friend.friend.service.MemberService;
 import com.google.firebase.auth.FirebaseAuthException;
 import java.util.List;
 import java.util.Optional;
+
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +27,7 @@ public class MemberController {
     private final MemberService memberService;
     private final FireBaseService fireBaseService;
     private final PasswordEncoder passwordEncoder;
-
+    @Operation(summary = "회원가입")
     @PostMapping("/users")
     public MemberResponseDTO.JoinResultDTO joinMember(
             @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
@@ -37,6 +39,7 @@ public class MemberController {
         return MemberResponseDTO.toJoinResultDTO(member);
     }
 
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     public MemberResponseDTO.LoginResultDTO loginMember(@RequestBody MemberRequestDTO.LoginMemberDTO request)
             throws Exception {
@@ -58,6 +61,7 @@ public class MemberController {
      * jwt쓴다면 email을 jwt토큰안에서 꺼내와도될듯?
      * APIResponse설정필요, 예외처리필요
      */
+    @Operation(summary = "프로필 카드 가져오기")
     @GetMapping("myPage/getProfile/{email}")
     public MemberResponseDTO.profileDTO getProfile(@PathVariable String email){
         System.out.println(email);

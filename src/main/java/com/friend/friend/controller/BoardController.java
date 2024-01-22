@@ -5,6 +5,7 @@ import com.friend.friend.domain.board.Review;
 import com.friend.friend.dto.BoardRequestsDto;
 import com.friend.friend.dto.BoardResponseDto;
 import com.friend.friend.service.BoardService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class BoardController {
     /**
      * 전체 후기 조회
      */
+    @Operation(summary = "모든 후기 조회")
     @GetMapping("/reviews")
     public List<BoardResponseDto> getReviews(){
         List<Board> allReviews = boardService.getAllReviews();
@@ -35,6 +37,7 @@ public class BoardController {
     /**
      * 후기 작성
      */
+    @Operation(summary = "후기 작성")
     @PostMapping("/review")
     public BoardResponseDto writeReview(@RequestBody BoardRequestsDto request){
         Review review = new Review();
@@ -50,6 +53,7 @@ public class BoardController {
     /**
      * 후기 상세 조회
      */
+    @Operation(summary = "후기 상세 조회")
     @GetMapping("/review/{id}")
     public BoardResponseDto getReview(@RequestParam Long id){
         return BoardResponseDto.convertBoardResponseDTO(boardService.getReviewWithIncreaseView(id));
@@ -58,6 +62,7 @@ public class BoardController {
     /**
      * 후기 수정
      */
+    @Operation(summary = "후기 수정")
     @PutMapping("/review/{id}")
     public BoardResponseDto updateReview(@RequestBody BoardRequestsDto request,@PathVariable Long id){
         Board review = boardService.getReview(id);
