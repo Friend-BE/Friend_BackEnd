@@ -18,58 +18,58 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class BoardController {
-    private final BoardService boardService;
-
-    /**
-     * 전체 후기 조회
-     */
-    @Operation(summary = "모든 후기 조회")
-    @GetMapping("/reviews")
-    public List<BoardResponseDto> getReviews(){
-        List<Board> allReviews = boardService.getAllReviews();
-        List<BoardResponseDto> result = new ArrayList<>();
-        for (Board allReview : allReviews) {
-            result.add(BoardResponseDto.convertBoardResponseDTO((Review) allReview));
-        }
-        return result;
-    }
-
-    /**
-     * 후기 작성
-     */
-    @Operation(summary = "후기 작성")
-    @PostMapping("/review")
-    public BoardResponseDto writeReview(@RequestBody BoardRequestsDto request){
-        Review review = new Review();
-        review.setTitle(request.getTitle());
-        review.setBody(request.getBody());
-        review.setAuthor(request.getAuthor());
-        review.setViews(0L);
-
-        Long board_id = boardService.saveBoard(review);
-        return BoardResponseDto.convertBoardResponseDTO(boardService.getReview(board_id));
-    }
-
-    /**
-     * 후기 상세 조회
-     */
-    @Operation(summary = "후기 상세 조회")
-    @GetMapping("/review/{id}")
-    public BoardResponseDto getReview(@RequestParam Long id){
-        return BoardResponseDto.convertBoardResponseDTO(boardService.getReviewWithIncreaseView(id));
-    }
-
-    /**
-     * 후기 수정
-     */
-    @Operation(summary = "후기 수정")
-    @PutMapping("/review/{id}")
-    public BoardResponseDto updateReview(@RequestBody BoardRequestsDto request,@PathVariable Long id){
-        Board review = boardService.getReview(id);
-        review.setTitle(request.getTitle());
-        review.setBody(request.getBody());
-        Long board_id = boardService.saveBoard(review);
-
-        return BoardResponseDto.convertBoardResponseDTO(boardService.getReview(board_id));
-    }
+//    private final BoardService boardService;
+//
+//    /**
+//     * 전체 후기 조회
+//     */
+//    @Operation(summary = "모든 후기 조회")
+//    @GetMapping("/reviews")
+//    public List<BoardResponseDto> getReviews(){
+//        List<Board> allReviews = boardService.getAllReviews();
+//        List<BoardResponseDto> result = new ArrayList<>();
+//        for (Board allReview : allReviews) {
+//            result.add(BoardResponseDto.convertBoardResponseDTO((Review) allReview));
+//        }
+//        return result;
+//    }
+//
+//    /**
+//     * 후기 작성
+//     */
+//    @Operation(summary = "후기 작성")
+//    @PostMapping("/review")
+//    public BoardResponseDto writeReview(@RequestBody BoardRequestsDto request){
+//        Review review = new Review(request);
+//        review.setTitle(request.getTitle());
+//        review.setBody(request.getBody());
+//        review.setAuthor(request.getAuthor());
+//        review.setViews(0L);
+//
+//        Long board_id = boardService.saveBoard(review);
+//        return BoardResponseDto.convertBoardResponseDTO(boardService.getReview(board_id));
+//    }
+//
+//    /**
+//     * 후기 상세 조회
+//     */
+//    @Operation(summary = "후기 상세 조회")
+//    @GetMapping("/review/{id}")
+//    public BoardResponseDto getReview(@RequestParam Long id){
+//        return BoardResponseDto.convertBoardResponseDTO(boardService.getReviewWithIncreaseView(id));
+//    }
+//
+//    /**
+//     * 후기 수정
+//     */
+//    @Operation(summary = "후기 수정")
+//    @PutMapping("/review/{id}")
+//    public BoardResponseDto updateReview(@RequestBody BoardRequestsDto request,@PathVariable Long id){
+//        Board review = boardService.getReview(id);
+//        review.setTitle(request.getTitle());
+//        review.setBody(request.getBody());
+//        Long board_id = boardService.saveBoard(review);
+//
+//        return BoardResponseDto.convertBoardResponseDTO(boardService.getReview(board_id));
+//    }
 }
