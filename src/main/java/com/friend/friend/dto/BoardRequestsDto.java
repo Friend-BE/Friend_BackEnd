@@ -12,9 +12,4 @@ public class BoardRequestsDto {
     private String author;
     private String password;
 
-    public BoardRequestsDto(Review board){
-        this.title=board.getTitle();
-        this.body=board.getBody();
-        this.author=board.getAuthor();
-    }
 }
