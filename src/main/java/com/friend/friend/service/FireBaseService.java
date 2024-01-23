@@ -31,8 +31,5 @@ public class FireBaseService {
         //버킷 변경 시 아래 내용 변경 필요
         return "https://firebasestorage.googleapis.com/v0/b/friend-327a9.appspot.com/o/"+nameFile+"?alt=media";
     }
-//    public Image getImgUrl(long userCode){
-//        return imageService.getImageByUserCode(userCode);
-//    }
 }
 
