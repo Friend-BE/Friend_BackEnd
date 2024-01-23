@@ -33,9 +33,7 @@ public class ReviewController {
     @Operation(summary = "후기 작성")
     @PostMapping("/review")
     public ReviewResponseDto createReview(@RequestBody ReviewRequestsDto request){
-        ReviewResponseDto response =reviewService.createReview(request);
-        System.out.println("response = " + response.toString());
-        return response;
+        return reviewService.createReview(request);
     }
 
     /**
