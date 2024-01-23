@@ -7,7 +7,6 @@ import com.friend.friend.service.FireBaseService;
 import com.friend.friend.service.MemberService;
 import com.google.firebase.auth.FirebaseAuthException;
 import java.util.List;
-import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
