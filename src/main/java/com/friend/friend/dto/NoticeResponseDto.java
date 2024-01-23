@@ -25,6 +25,4 @@ public class NoticeResponseDto {
         this.updatedAt = entity.getUpdatedAt();
     }
 
-    public NoticeResponseDto(Board board) {
-    }
 }
