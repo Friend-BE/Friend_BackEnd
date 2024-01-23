@@ -9,7 +9,10 @@ import com.friend.friend.dto.NoticeResponseDto;
 import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.service.NoticeService;
 import java.util.List;
+
 import java.util.Optional;
+import io.swagger.v3.oas.annotations.Operation;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     //전체목록조회
+    @Operation(summary = "전체 공지사항 목록 조회")
     @GetMapping("/posts")
     public ResponseEntity getNotices() {
         List<NoticeResponseDto> notices = noticeService.getNotices();
@@ -40,6 +44,7 @@ public class NoticeController {
     }
 
     //공지사항 작성
+    @Operation(summary = "공지사항 작성")
     @PostMapping("/post")
     public ResponseEntity createNotice(@RequestBody NoticeRequestDto requestDto) {
         boolean result = noticeService.createNotice(requestDto);
@@ -52,6 +57,7 @@ public class NoticeController {
     }
 
     //선택한 공지사항 조회
+    @Operation(summary = "선택한 공지사항 조회")
     @GetMapping("/post/{id}")
     public ResponseEntity getNotice(@PathVariable Long id) {
         Optional<NoticeResponseDto> notice = noticeService.getPost(id);
@@ -63,6 +69,7 @@ public class NoticeController {
     }
 
     //공지사항 수정
+    @Operation(summary = "공지사항 수정")
     @PutMapping("/post/{id}")
     public ResponseEntity updateNotice(@PathVariable Long id, @RequestBody NoticeRequestDto requestDto)
             throws Exception {
@@ -75,6 +82,7 @@ public class NoticeController {
     }
 
     //공지사항 삭제
+    @Operation(summary = "공지사항 삭제")
     @DeleteMapping("/post/{id}")
     public ResponseEntity deleteNotice(@PathVariable Long id, @RequestBody NoticeRequestDto requestDto)
             throws Exception {
