@@ -4,6 +4,7 @@ import com.friend.friend.domain.UnivCertResponse;
 import com.friend.friend.domain.enums.HTTPResponseEnum;
 import com.friend.friend.dto.MailDTO;
 import com.univcert.api.UnivCert;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ public class UnivCertController {
     @Value("${univCert.key}")
     private String key;
 
+    @Operation(summary = "입력받은 사용자 이메일을 바탕으로 인증코드 전송")
     @PostMapping("/certify/send")
     public ResponseEntity<UnivCertResponse> sendUnivCertMail(@RequestBody MailDTO mailDTO) throws IOException {
         UnivCert.clear(key, mailDTO.getEmail());
@@ -47,7 +49,7 @@ public class UnivCertController {
         return new ResponseEntity<>(message, httpHeaders, emailSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 
-
+    @Operation(summary = "입력받은 사용자 이메일과 인증코드를 바탕으로 이메일 인증")
     @GetMapping("/certify/verify")
     public ResponseEntity<UnivCertResponse> validMailCode(@RequestParam String email,
                                                           @RequestParam int code) throws IOException {
