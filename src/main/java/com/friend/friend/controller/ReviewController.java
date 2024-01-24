@@ -1,15 +1,11 @@
 package com.friend.friend.controller;
 
-import com.friend.friend.domain.board.Board;
-import com.friend.friend.domain.board.Review;
 import com.friend.friend.dto.*;
-import com.friend.friend.service.BoardService;
 import com.friend.friend.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

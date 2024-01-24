@@ -1,10 +1,7 @@
 package com.friend.friend.service;
 
-import com.friend.friend.domain.Member;
-import com.friend.friend.domain.board.Board;
 import com.friend.friend.domain.board.Report;
 import com.friend.friend.dto.ReportRequestDto;
-import com.friend.friend.repository.BoardRepository;
 import com.friend.friend.repository.MemberRepository;
 import com.friend.friend.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
