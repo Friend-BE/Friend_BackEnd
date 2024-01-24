@@ -1,10 +1,13 @@
 package com.friend.friend.controller;
 
+import com.friend.friend.common.Response;
 import com.friend.friend.domain.UnivCertResponse;
 import com.friend.friend.domain.enums.HTTPResponseEnum;
 import com.friend.friend.dto.MailDTO;
+import com.friend.friend.service.NoticeService;
 import com.univcert.api.UnivCert;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -19,14 +22,17 @@ import java.util.Map;
 
 @Configuration
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class UnivCertController {
+    private final NoticeService noticeService;
+
     @Value("${univCert.key}")
     private String key;
 
     @Operation(summary = "입력받은 사용자 이메일을 바탕으로 인증코드 전송")
     @PostMapping("/certify/send")
-    public ResponseEntity<UnivCertResponse> sendUnivCertMail(@RequestBody MailDTO mailDTO) throws IOException {
+    public ResponseEntity sendUnivCertMail(@RequestBody MailDTO mailDTO) throws IOException {
         UnivCert.clear(key, mailDTO.getEmail());
         Map<String, Object> check = UnivCert.check("부경대학교");
         boolean univ_check = (boolean) check.get("success");
@@ -41,17 +47,18 @@ public class UnivCertController {
         if (emailSuccess) {
             message.setStatus(HTTPResponseEnum.OK);
             message.setMessage("Success at sending mail");
+            return new ResponseEntity<>(Response.success(message),HttpStatus.OK);
         } else {
             message.setStatus(HTTPResponseEnum.BAD_REQUEST);
             message.setMessage("Error at sending mail");
+            return new ResponseEntity<>(Response.failure(),HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(message, httpHeaders, emailSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 
     @Operation(summary = "입력받은 사용자 이메일과 인증코드를 바탕으로 이메일 인증")
     @GetMapping("/certify/verify")
-    public ResponseEntity<UnivCertResponse> validMailCode(@RequestParam String email,
+    public ResponseEntity validMailCode(@RequestParam String email,
                                                           @RequestParam int code) throws IOException {
 
         Map<String, Object> response = UnivCert.certifyCode(key, email, "부경대학교", code);
@@ -64,11 +71,11 @@ public class UnivCertController {
         if (success) {
             message.setStatus(HTTPResponseEnum.OK);
             message.setMessage("Email verification succeeded.");
-            return new ResponseEntity<>(message, httpHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(Response.success(message),HttpStatus.OK);
         } else {
             message.setStatus(HTTPResponseEnum.BAD_REQUEST);
             message.setMessage("Email verification failed.");
-            return new ResponseEntity<>(message, httpHeaders, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
 
