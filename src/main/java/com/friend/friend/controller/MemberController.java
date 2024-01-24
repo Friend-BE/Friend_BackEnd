@@ -26,11 +26,6 @@ public class MemberController {
     private final FireBaseService fireBaseService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("member/insert")
-    public void insertMember() {
-//        memberService.insertMember();
-    }
-
     @PostMapping("/users")
     public MemberResponseDTO.JoinResultDTO joinMember(
             @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
@@ -47,7 +42,7 @@ public class MemberController {
             throws Exception {
         List<Member> member = memberService.findByEmail(request.getEmail());
 
-        if (member.size() == 0) {
+        if (member.isEmpty()) {
             return null;
         } else {
             if (passwordEncoder.matches(request.getPassword(), member.get(0).getPassword())) {
@@ -68,7 +63,7 @@ public class MemberController {
         System.out.println(email);
         Member member = memberService.getMemberByEmail(email);
 
-        MemberResponseDTO.profileDTO memberProfile = MemberResponseDTO.profileDTO.builder()
+        return MemberResponseDTO.profileDTO.builder()
                 .distance(member.getDistance())
                 .birthday(member.getBirthday())
                 .height(member.getHeight())
@@ -78,8 +73,7 @@ public class MemberController {
                 .introduction(member.getIntroduction())
                 .nickname(member.getNickname())
                 .department(member.getDepartment())
+                .imgUrl(member.getImage())
                 .build();
-
-        return memberProfile;
     }
 }

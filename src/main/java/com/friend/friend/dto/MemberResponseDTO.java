@@ -27,7 +27,7 @@ public class MemberResponseDTO {
         DrinkingEnum drinking;
         String department;
         String introduction;
-
+        String imgUrl;
     }
 
     
