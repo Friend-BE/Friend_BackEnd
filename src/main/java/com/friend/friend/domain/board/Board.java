@@ -3,6 +3,7 @@ package com.friend.friend.domain.board;
 import com.friend.friend.common.BaseEntity;
 import com.friend.friend.dto.NoticeRequestDto;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
