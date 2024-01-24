@@ -23,7 +23,7 @@ jobs:
   build-with-gradle:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     #배포 속도 증가를 위해 캐싱 사용
     - name: Cache Gradle
