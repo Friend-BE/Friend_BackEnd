@@ -20,7 +20,7 @@ public class MainController {
     }
     @GetMapping("/test")
     public String test(){
-        return "테스트테스트채정훈222222222";
+        return "테스트테스트채정 훈2222222222";
     }
 
     public String test2(){
