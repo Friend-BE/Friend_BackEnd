@@ -37,5 +37,4 @@ out/
 
 ###
 src/main/resources/serviceAccountKey.json
-src/main/java/com/friend/friend/config/FireBaseConfig.java
 .DS_Store
