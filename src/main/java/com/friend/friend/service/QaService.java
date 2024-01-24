@@ -1,6 +1,8 @@
 package com.friend.friend.service;
 
 import com.friend.friend.domain.board.Qa;
+import com.friend.friend.dto.QaRequestDTO;
+import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.repository.QaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,15 @@ public class QaService {
 
     private final QaRepository qaRepository;
 
+    @Transactional
+    public Qa updateQa(Long qaId, QaRequestDTO.updateQaDTO updateQaDTO) {
+        Qa qa = qaRepository.findById(qaId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 QA 입니다")
+        );
+        qa.update(updateQaDTO);
+        return qa;
+    }
+
     public List<Qa> getAllQa() {
         List<Qa> Qas = qaRepository.findAll();
         return Qas;
@@ -22,18 +33,27 @@ public class QaService {
 
     @Transactional
     public Qa getQa(Long qaId) {
-        Optional<Qa> optionalQa = qaRepository.findById(qaId);
+        Qa qa = qaRepository.findById(qaId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 QA 입니다"));
 
-        if (!optionalQa.isEmpty()) {
-            return optionalQa.get();
-        }
+        return qa;
 
-        return null;
     }
 
-
+    @Transactional
     public Long saveQa(Qa qa) {
         Qa saveQa = qaRepository.save(qa);
         return saveQa.getId();
     }
+
+    @Transactional
+    public SuccessResponseDto deleteQa(Long id) {
+            Qa qa = qaRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("존재하지 않는 QA 입니다")
+            );
+
+            qaRepository.deleteById(id);
+            return new SuccessResponseDto(true);
+        }
+
 }

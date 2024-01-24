@@ -20,4 +20,17 @@ public class QaRequestDTO {
         private PrivacyEnum privacy;
         private String password; //비밀번호 - 있어야되지않나?
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class updateQaDTO{
+        private String title;   //제목
+        private String body; // 본문
+        private PrivacyEnum privacy; //비밀글 여부
+        private String password; //비밀번호 ( 비밀번호도 수정한다면 필요할듯?)
+    }
+
+
 }
