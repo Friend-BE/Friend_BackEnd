@@ -36,17 +36,27 @@ public class ReportController {
     @Operation(summary = "신고 내역 전체 조회")
     @GetMapping("/reports")
     public ResponseEntity getReportList(){
-        List<ReportResponseDto> result = new ArrayList<>();
-        List<Report> reports = reportService.getAllReports();
-
-        for(Report report : reports){
-            result.add(new ReportResponseDto(report));
-        }
-        if(!result.isEmpty()){
+        try{
+            List<ReportResponseDto> result = new ArrayList<>();
+            List<Report> reports = reportService.getAllReports();
+            for(Report report : reports){
+                result.add(new ReportResponseDto(report));
+            }
             return new ResponseEntity(Response.success(result),HttpStatus.OK);
-        }else{
+        }catch (IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
+//        List<ReportResponseDto> result = new ArrayList<>();
+//        List<Report> reports = reportService.getAllReports();
+
+//        for(Report report : reports){
+//            result.add(new ReportResponseDto(report));
+//        }
+//        if(!result.isEmpty()){
+//            return new ResponseEntity(Response.success(result),HttpStatus.OK);
+//        }else{
+//            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+//        }
     }
 
     @Operation(summary = "신고 내역 상세 조회")
@@ -63,15 +73,15 @@ public class ReportController {
     @Operation(summary = "회원별 신고 내역 조회")
     @GetMapping("/report/user/{id}")
     public ResponseEntity getReportListByMember(@PathVariable Long id){
-        List<ReportResponseDto> result = new ArrayList<>();
-        List<Report> reports = reportService.getReportsByMember(id);
+        try{
+            List<ReportResponseDto> result = new ArrayList<>();
+            List<Report> reports = reportService.getReportsByMember(id);
 
-        for(Report report : reports){
-            result.add(new ReportResponseDto(report));
-        }
-        if(!result.isEmpty()){
+            for(Report report : reports){
+                result.add(new ReportResponseDto(report));
+            }
             return new ResponseEntity(Response.success(result),HttpStatus.OK);
-        }else{
+        }catch (IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }

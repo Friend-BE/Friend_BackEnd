@@ -35,10 +35,10 @@ public class NoticeController {
     @Operation(summary = "전체 공지사항 목록 조회")
     @GetMapping("/posts")
     public ResponseEntity getNotices() {
-        List<NoticeResponseDto> notices = noticeService.getNotices();
-        if (!notices.isEmpty()) {
+        try{
+            List<NoticeResponseDto> notices = noticeService.getNotices();
             return new ResponseEntity<>(Response.success(notices), HttpStatus.OK);
-        } else {
+        }catch (IllegalArgumentException ex){
             return new ResponseEntity<>(Response.failure(), HttpStatus.BAD_REQUEST);
         }
     }
