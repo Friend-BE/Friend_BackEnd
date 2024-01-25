@@ -24,10 +24,10 @@ public class MemberRequestDTO {
         Integer drinking; // 0 : DRINKER, 1 : NONDRINKER
         String introduction;
         String preference;
+        String nonRegion;
         String nondepartment;
         String nonstudentid;
         String nonage;
-        String image;
     }
     @Getter
     public static class LoginMemberDTO{

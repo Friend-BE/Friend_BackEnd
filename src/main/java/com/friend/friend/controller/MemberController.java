@@ -67,23 +67,6 @@ public class MemberController {
      */
     @Operation(summary = "프로필 카드 가져오기")
     @GetMapping("myPage/getProfile/{email}")
-//    public MemberResponseDTO.profileDTO getProfile(@PathVariable String email){
-//        System.out.println(email);
-//        Member member = memberService.getMemberByEmail(email);
-//
-//        return MemberResponseDTO.profileDTO.builder()
-//                .distance(member.getDistance())
-//                .birthday(member.getBirthday())
-//                .height(member.getHeight())
-//                .region(member.getRegion())
-//                .smoking(member.getSmoking())
-//                .drinking(member.getDrinking())
-//                .introduction(member.getIntroduction())
-//                .nickname(member.getNickname())
-//                .department(member.getDepartment())
-//                .imgUrl(member.getImage())
-//                .build();
-//    }
     public ResponseEntity getProfile(@PathVariable String email){
         System.out.println(email);
         Member member = memberService.getMemberByEmail(email);
@@ -98,7 +81,7 @@ public class MemberController {
                 .introduction(member.getIntroduction())
                 .nickname(member.getNickname())
                 .department(member.getDepartment())
-                .imgUrl(member.getImage())
+                .imgUrl(member.getImgUrl())
                 .build();
         if(profileDTO!=null){
             return new ResponseEntity(Response.success(profileDTO),HttpStatus.OK);
