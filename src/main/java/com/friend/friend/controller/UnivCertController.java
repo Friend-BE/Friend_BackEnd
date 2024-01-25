@@ -4,7 +4,6 @@ import com.friend.friend.common.Response;
 import com.friend.friend.domain.UnivCertResponse;
 import com.friend.friend.domain.enums.HTTPResponseEnum;
 import com.friend.friend.dto.MailDTO;
-import com.friend.friend.service.NoticeService;
 import com.univcert.api.UnivCert;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +24,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class UnivCertController {
-    private final NoticeService noticeService;
-
     @Value("${univCert.key}")
     private String key;
 
