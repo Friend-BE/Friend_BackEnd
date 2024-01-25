@@ -42,7 +42,8 @@ public class Member extends BaseEntity {
     private String nondepartment;
     private String nonstudentid;
     private String nonage;
-    private String image;
+    private String nonRegion;
+    private String imgUrl;
 
     public Member() {}
 
@@ -72,7 +73,8 @@ public class Member extends BaseEntity {
                 .nondepartment(request.getNondepartment())
                 .nonstudentid(request.getNonstudentid())
                 .nonage(request.getNonage())
-                .image(imgurl)
+                .nonRegion(request.getNonRegion())
+                .imgUrl(imgurl)
                 .build();
     }
 }
