@@ -23,10 +23,10 @@ public class ReviewController {
     @Operation(summary = "모든 후기 조회")
     @GetMapping("/reviews")
     public ResponseEntity getReviews(){
-        List<ReviewResponseDto> reviews = reviewService.getReviews();
-        if(!reviews.isEmpty()){
+        try{
+            List<ReviewResponseDto> reviews = reviewService.getReviews();
             return new ResponseEntity<>(Response.success(reviews), HttpStatus.OK);
-        }else{
+        }catch (IllegalArgumentException ex){
             return new ResponseEntity<>(Response.failure(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -50,9 +50,6 @@ public class ReviewController {
      */
     @Operation(summary = "후기 상세 조회")
     @GetMapping("/review/{id}")
-//    public ReviewResponseDto getReview(@RequestParam Long id){
-//        return reviewService.getReview(id);
-//    }
     public ResponseEntity getReview(@RequestParam Long id){
         ReviewResponseDto review = reviewService.getReview(id);
         if (review!=null) {
@@ -66,9 +63,6 @@ public class ReviewController {
      */
     @Operation(summary = "후기 수정")
     @PutMapping("/review/{id}")
-//    public ReviewResponseDto updateReview(@RequestBody ReviewRequestsDto request,@PathVariable Long id){
-//        return reviewService.updateReview(id,request);
-//    }
     public ResponseEntity updateReview(@RequestBody ReviewRequestsDto request, @PathVariable Long id){
         ReviewResponseDto review = reviewService.updateReview(id, request);
         if (review!=null) {
@@ -79,10 +73,6 @@ public class ReviewController {
     }
     @Operation(summary = "후기 삭제")
     @DeleteMapping("/review/{id}")
-//    public SuccessResponseDto deleteNotice(@PathVariable Long id, @RequestBody ReviewRequestsDto request)
-//            throws Exception {
-//        return reviewService.deleteReview(id, request);
-//    }
     public ResponseEntity deleteNotice(@PathVariable Long id, @RequestBody ReviewRequestsDto request)
             throws Exception {
         try{

@@ -34,23 +34,21 @@ public class QaController {
     @Operation(summary = "모든 Q&A 조회")
     @GetMapping("/qas")
     public ResponseEntity getQas(){
-        List<Qa> Qas = qaService.getAllQa();
-
-        Iterator<Qa> iteratorQa = Qas.iterator();
-        List<QAResponseDTO.getQasDTO> returnQa = new ArrayList<>();
-
-        while(iteratorQa.hasNext()) {
-            Qa qa = iteratorQa.next();
-            returnQa.add(QAResponseDTO.getQasDTO.builder()
-                    .id(qa.getId())
-                    .privacy(qa.getPrivacy())
-                    .title(qa.getTitle())
-                    .author(qa.getAuthor())
-                    .build());
-        }
-        if(!returnQa.isEmpty()){
+        try{
+            List<Qa> Qas = qaService.getAllQa();
+            Iterator<Qa> iteratorQa = Qas.iterator();
+            List<QAResponseDTO.getQasDTO> returnQa = new ArrayList<>();
+            while(iteratorQa.hasNext()) {
+                Qa qa = iteratorQa.next();
+                returnQa.add(QAResponseDTO.getQasDTO.builder()
+                        .id(qa.getId())
+                        .privacy(qa.getPrivacy())
+                        .title(qa.getTitle())
+                        .author(qa.getAuthor())
+                        .build());
+            }
             return new ResponseEntity(Response.success(returnQa), HttpStatus.OK);
-        }else{
+        }catch (IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
