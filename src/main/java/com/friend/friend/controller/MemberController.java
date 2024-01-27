@@ -7,6 +7,8 @@ import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.service.FireBaseService;
 import com.friend.friend.service.MemberService;
 import com.google.firebase.auth.FirebaseAuthException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +45,54 @@ public class MemberController {
         }else {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
+    }
+    @Operation(summary = "심사 끝난 계정 활성화")
+    @PostMapping("/activate")
+    public ResponseEntity activateAccount(
+            @RequestBody MemberRequestDTO.AccountUpdateDTO request
+    ){
+        memberService.activateAccount(request.getEmail());
+        List<Member> member = memberService.findByEmail(request.getEmail());
+        MemberResponseDTO.JoinResultDTO resultDTO = MemberResponseDTO.toJoinResultDTO(member.get(0));
+        if(resultDTO!=null){
+            return new ResponseEntity(Response.success(resultDTO), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "심사 대기중인 회원 리스트 가져오기")
+    @GetMapping("/activateList")
+    public ResponseEntity activateList(){
+        try{
+            List<Member> activateList = memberService.findAuditList();
+            List<MemberResponseDTO.activateResultDTO> resultDTO = new ArrayList<>();
+            for (Member member : activateList) {
+                MemberResponseDTO.activateResultDTO result = MemberResponseDTO.activateResultDTO.builder()
+                        .distance(member.getDistance())
+                        .birthday(member.getBirthday())
+                        .height(member.getHeight())
+                        .region(member.getRegion())
+                        .smoking(member.getSmoking())
+                        .drinking(member.getDrinking())
+                        .introduction(member.getIntroduction())
+                        .nickname(member.getNickname())
+                        .department(member.getDepartment())
+                        .imgUrl(member.getImgUrl())
+                        .email(member.getEmail())
+                        .nondepartment(member.getNondepartment())
+                        .nonRegion(member.getNonRegion())
+                        .nonstudentid(member.getNonstudentid())
+                        .nonage(member.getNonage())
+                        .build();
+                resultDTO.add(result);
+            }
+            return new ResponseEntity(Response.success(resultDTO), HttpStatus.OK);
+
+        }catch (IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+
     }
     @Operation(summary = "로그인")
     @PostMapping("/login")

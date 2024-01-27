@@ -1,14 +1,19 @@
 package com.friend.friend.repository;
 
 import com.friend.friend.domain.Member;
+import com.friend.friend.domain.enums.AccountStatusEnum;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;
 import org.springframework.stereotype.Repository;
+
+import static com.friend.friend.domain.enums.AccountStatusEnum.AUDIT;
 
 @Repository
 @RequiredArgsConstructor
@@ -44,5 +49,22 @@ public class MemberRepository {
                 .setParameter("email", email)
                 .getResultList();
     }
+    public void activateAccount(String nickname) {
+        try {
+            Member member = em.createQuery("select m from Member m where m.nickname = :nickname", Member.class)
+                    .setParameter("nickname", nickname)
+                    .getSingleResult();
+            member.setStatus(AccountStatusEnum.ACTIVE);
+            em.persist(member);
+        } catch (NoResultException e) {
+        }
+    }
+
+    public List<Member> findByStatus() {
+        return em.createQuery("SELECT m FROM Member m WHERE m.status = :status", Member.class)
+                .setParameter("status",AUDIT)
+                .getResultList();
+    }
+
 }
 

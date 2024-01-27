@@ -34,4 +34,8 @@ public class MemberRequestDTO {
         String email;
         String password;
     }
+    @Getter
+    public static class AccountUpdateDTO{
+        String email;
+    }
 }
