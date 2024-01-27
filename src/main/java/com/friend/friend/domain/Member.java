@@ -56,7 +56,7 @@ public class Member extends BaseEntity {
         return Member.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .status(AccountStatusEnum.ACTIVE)
+                .status(AccountStatusEnum.AUDIT)
                 .role(role)
                 .nickname(request.getNickname())
                 .phone(request.getPhone())
