@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,14 @@ public class MemberController {
     private final MemberService memberService;
     private final FireBaseService fireBaseService;
     private final PasswordEncoder passwordEncoder;
+  
     @Operation(summary = "회원가입")
     @PostMapping("/users")
     public ResponseEntity joinMember(
             @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
             @RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
         String imgUrl = fireBaseService.uploadFiles(file, request.getEmail());
+
         Member member = Member.toMember(request, passwordEncoder, imgUrl);
         memberService.join(member);
         MemberResponseDTO.JoinResultDTO resultDTO = MemberResponseDTO.toJoinResultDTO(member);
@@ -52,8 +55,8 @@ public class MemberController {
             @RequestBody MemberRequestDTO.AccountUpdateDTO request
     ){
         memberService.activateAccount(request.getEmail());
-        List<Member> member = memberService.findByEmail(request.getEmail());
-        MemberResponseDTO.JoinResultDTO resultDTO = MemberResponseDTO.toJoinResultDTO(member.get(0));
+        Optional<Member> member = memberService.findByEmail(request.getEmail());
+        MemberResponseDTO.JoinResultDTO resultDTO = MemberResponseDTO.toJoinResultDTO(member.get());
         if(resultDTO!=null){
             return new ResponseEntity(Response.success(resultDTO), HttpStatus.OK);
         }else{
@@ -98,13 +101,13 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity loginMember(@RequestBody MemberRequestDTO.LoginMemberDTO request)
             throws Exception {
-        List<Member> member = memberService.findByEmail(request.getEmail());
+        Optional<Member> member = memberService.findByEmail(request.getEmail());
 
         if (member.isEmpty()) {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         } else {
-            if (passwordEncoder.matches(request.getPassword(), member.get(0).getPassword())) {
-                MemberResponseDTO.LoginResultDTO loginResultDTO = MemberResponseDTO.toLoginResultDTO(member.get(0));
+            if (passwordEncoder.matches(request.getPassword(), member.get().getPassword())) {
+                MemberResponseDTO.LoginResultDTO loginResultDTO = MemberResponseDTO.toLoginResultDTO(member.get());
                 return new ResponseEntity(Response.success(loginResultDTO),HttpStatus.OK);
             }
         }
@@ -118,7 +121,6 @@ public class MemberController {
     @Operation(summary = "프로필 카드 가져오기")
     @GetMapping("myPage/getProfile/{email}")
     public ResponseEntity getProfile(@PathVariable String email){
-        System.out.println(email);
         Member member = memberService.getMemberByEmail(email);
 
         MemberResponseDTO.profileDTO profileDTO = MemberResponseDTO.profileDTO.builder()
