@@ -32,10 +32,14 @@ public class MemberController {
     private final MemberService memberService;
     private final FireBaseService fireBaseService;
     private final PasswordEncoder passwordEncoder;
+  
     @Operation(summary = "회원가입")
     @PostMapping("/users")
-    public ResponseEntity joinMember(@RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,  @RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
-        String imgUrl = fireBaseService.uploadFiles(file, request.getNickname());
+    public ResponseEntity joinMember(
+            @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
+            @RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
+        String imgUrl = fireBaseService.uploadFiles(file, request.getEmail());
+
         Member member = Member.toMember(request, passwordEncoder, imgUrl);
         memberService.join(member);
         MemberResponseDTO.JoinResultDTO resultDTO = MemberResponseDTO.toJoinResultDTO(member);
