@@ -6,6 +6,7 @@ import com.friend.friend.repository.MemberRepository;
 
 import java.util.List;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,18 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+
     /**
      * email을 통해서 member 객체 받아온다.
      */
     public Member getMemberByEmail(String email) {
-        List<Member> member = memberRepository.findByEmail(email);
-
-        if(!member.isEmpty()){
-            return member.get(0);
-        }
-        else{
-            return null;  //임시로 박아놓음
-        }
+        Optional<Member> member = memberRepository.findByEmail(email);
+        return member.orElse(null);
     }
 
     //회원 가입 기능
@@ -39,11 +35,12 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         //Exception
-        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
-
-        if (!findMembers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다");
-        }
+        Optional<Member> findMembers = memberRepository.findByEmail(member.getEmail());
+        findMembers.ifPresent(
+                m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다");
+                }
+        );
     }
 
     //회원 전체 조회
@@ -51,27 +48,31 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+    public Optional<Member> findOne(Long memberId) {
+        return memberRepository.findById(memberId);
     }
 
     @Transactional
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
-        member.setNickname(name);
+        Optional<Member> member = memberRepository.findById(id);
+        member.ifPresent(m -> m.setNickname(name));
     }
+
     @Transactional
-    public List<Member> findByEmail(String email){
+    public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
 
     @Transactional
     public void activateAccount(String email) {
-        List<Member> members = memberRepository.findByEmail(email);
-        Member member = members.get(0);
-        member.setStatus(AccountStatusEnum.ACTIVE);
+        Optional<Member> members = memberRepository.findByEmail(email);
+        members.ifPresent(member -> {
+            member.setStatus(AccountStatusEnum.ACTIVE);
+            memberRepository.save(member);
+        });
     }
-    public List<Member> findAuditList(){
-        return memberRepository.findByStatus();
+
+    public List<Member> findAuditList() {
+        return memberRepository.findByStatus(AccountStatusEnum.AUDIT);
     }
 }
