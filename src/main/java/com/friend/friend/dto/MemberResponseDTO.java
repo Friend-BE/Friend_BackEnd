@@ -51,6 +51,27 @@ public class MemberResponseDTO {
         String status;
         String role;
     }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class activateResultDTO{
+        String nickname;
+        String birthday;
+        double height;
+        String region;
+        DistanceEnum distance;
+        SmokingEnum smoking;
+        DrinkingEnum drinking;
+        String department;
+        String introduction;
+        String imgUrl;
+        String email;
+        String nondepartment;
+        String nonstudentid;
+        String nonage;
+        String nonRegion;
+    }
 
     public static MemberResponseDTO.JoinResultDTO toJoinResultDTO(Member member){
         return MemberResponseDTO.JoinResultDTO.builder()

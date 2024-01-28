@@ -1,6 +1,7 @@
 package com.friend.friend.service;
 
 import com.friend.friend.domain.Member;
+import com.friend.friend.domain.enums.AccountStatusEnum;
 import com.friend.friend.repository.MemberRepository;
 
 import java.util.List;
@@ -62,5 +63,15 @@ public class MemberService {
     @Transactional
     public List<Member> findByEmail(String email){
         return memberRepository.findByEmail(email);
+    }
+
+    @Transactional
+    public void activateAccount(String email) {
+        List<Member> members = memberRepository.findByEmail(email);
+        Member member = members.get(0);
+        member.setStatus(AccountStatusEnum.ACTIVE);
+    }
+    public List<Member> findAuditList(){
+        return memberRepository.findByStatus();
     }
 }
