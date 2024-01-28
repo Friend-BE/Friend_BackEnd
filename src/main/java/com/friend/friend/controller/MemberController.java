@@ -36,7 +36,7 @@ public class MemberController {
     public ResponseEntity joinMember(
             @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
             @RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
-        String imgUrl = fireBaseService.uploadFiles(file, request.getNickname());
+        String imgUrl = fireBaseService.uploadFiles(file, request.getEmail());
         Member member = Member.toMember(request, passwordEncoder, imgUrl);
         memberService.join(member);
         MemberResponseDTO.JoinResultDTO resultDTO = MemberResponseDTO.toJoinResultDTO(member);
