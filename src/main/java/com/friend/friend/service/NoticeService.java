@@ -30,12 +30,8 @@ public class NoticeService {
         Notice notice = new Notice(requestDto);
 //        noticeRepository.save(notice);
 //        return new NoticeResponseDto(notice);
-        if (notice == null) {
-            return false;
-        } else {
-            noticeRepository.save(notice);
-            return true;
-        }
+        noticeRepository.save(notice);
+        return true;
     }
 
     @Transactional
