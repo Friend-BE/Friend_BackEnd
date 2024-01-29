@@ -5,12 +5,14 @@ import com.friend.friend.dto.ReportRequestDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @DiscriminatorValue("Report")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Report extends Board {
     private Long badMemberId;
 
