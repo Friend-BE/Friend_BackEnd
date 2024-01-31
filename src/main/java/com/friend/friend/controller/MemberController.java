@@ -141,4 +141,6 @@ public class MemberController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
+
+
 }

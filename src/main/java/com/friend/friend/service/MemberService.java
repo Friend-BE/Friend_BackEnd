@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+
     /**
      * email을 통해서 member 객체 받아온다.
      */
@@ -75,4 +76,6 @@ public class MemberService {
     public List<Member> findAuditList() {
         return memberRepository.findByStatus(AccountStatusEnum.AUDIT);
     }
+
+
 }
