@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -143,4 +144,28 @@ public class MemberController {
     }
 
 
+    @Operation(summary = "회원 목록 가져오기")
+    @GetMapping("/memberList")
+    public ResponseEntity getMemberList(@RequestParam Integer gender,
+                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") String date){
+        try {
+            List<Member> memberList = memberService.memberList(gender, date);
+            List<MemberResponseDTO.memberListDTO> result = new ArrayList<>();
+
+            for (Member member : memberList) {
+                MemberResponseDTO.memberListDTO resultDTO = MemberResponseDTO.memberListDTO.builder()
+                        .memberId(member.getId())
+                        .nickname(member.getNickname())
+                        .gender(member.getGender())
+                        .createdAt(member.getCreatedAt())
+                        .build();
+                result.add(resultDTO);
+            }
+
+            return new ResponseEntity(Response.success(result), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }
