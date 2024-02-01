@@ -3,6 +3,7 @@ package com.friend.friend.dto;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.enums.DistanceEnum;
 import com.friend.friend.domain.enums.DrinkingEnum;
+import com.friend.friend.domain.enums.GenderEnum;
 import com.friend.friend.domain.enums.SmokingEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -87,5 +88,16 @@ public class MemberResponseDTO {
                 .status(member.getStatus().toString())
                 .role(member.getRole().toString())
                 .build();
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class memberListDTO{
+        Long memberId;
+        String nickname;
+        GenderEnum gender;
+        LocalDateTime createdAt;
     }
 }
