@@ -10,6 +10,7 @@ import com.friend.friend.dto.QAResponseDTO;
 import com.friend.friend.service.MatchingService;
 import com.friend.friend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -56,4 +57,25 @@ public class MatchingController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
+//    @Operation(summary = "신고 가능한 유저 출력")
+//    @GetMapping("report/{userId}")
+//    public ResponseEntity getReportList(@PathVariable Long userId){
+//        try{
+//            List<Matching> matchings = matchingService.getReportListById(userId);
+//            Iterator<Matching> iteratorMatching = matchings.iterator();
+//            List<MatchingResponseDTO.getReportListDTO> resultDTO = new ArrayList<>();
+//            while(iteratorMatching.hasNext()){
+//                Matching matching = iteratorMatching.next();
+//                resultDTO.add(MatchingResponseDTO.getReportListDTO.builder()
+//                                .id(matching.getId())
+//                                .date(matching.getDate())
+//                                .opponent(matching.getOpponent())
+//                                .build()
+//                );
+//            }
+//            return new ResponseEntity(Response.success(resultDTO),HttpStatus.OK);
+//        }catch (Exception e){
+//            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

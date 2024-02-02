@@ -10,4 +10,5 @@ public class ReportRequestDto {
     private String body;
     private String author;
     private Long badMemberId;
+    private String badMemberNickname;
 }
