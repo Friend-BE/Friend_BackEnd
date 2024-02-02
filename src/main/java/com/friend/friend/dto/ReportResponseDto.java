@@ -14,6 +14,7 @@ public class ReportResponseDto {
     private String body;
     private String author;
     private Long badMemberId;
+    private String badMemberNickname;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -23,6 +24,7 @@ public class ReportResponseDto {
         this.body = report.getBody();
         this.author = report.getAuthor();
         this.badMemberId = report.getBadMemberId();
+        this.badMemberNickname=report.getBadMemberNickname();
         this.createdAt = report.getCreatedAt();
         this.updatedAt = report.getUpdatedAt();
     }

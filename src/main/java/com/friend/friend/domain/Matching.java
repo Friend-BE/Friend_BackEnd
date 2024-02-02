@@ -1,7 +1,7 @@
 package com.friend.friend.domain;
 
 import com.friend.friend.common.BaseEntity;
-import com.friend.friend.domain.enums.AnswerStatusEnum;
+import com.friend.friend.domain.enums.MatchingStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class Matching extends BaseEntity {
 
     private String opponent;
 
-    private AnswerStatusEnum status;
+    private MatchingStatusEnum status;
 
     private String birthday; //상대방 생년월일
 
