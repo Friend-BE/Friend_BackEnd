@@ -26,16 +26,16 @@ public class MatchingResponseDTO {
         private MatchingStatusEnum status; //매칭완료여부
         private String bithday; //상대방 생년월일
     }
-//    @Builder
-//    @Getter
-//    @NoArgsConstructor
-//    @AllArgsConstructor
-//    public static class getReportListDTO {
-//        private Long id;
-//        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
-//        private LocalDateTime date;   //날짜
-//        private String opponent;    //상대방
-////        private AnswerStatusEnum status; //매칭완료여부
-////        private String bithday; //상대방 생년월일
-//    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getReportListDTO {
+        private Long id;
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
+        private LocalDateTime date;   //날짜
+        private String opponentNickname;    //상대방
+        private String opponentBirthday; //상대방 생년월일
+        private String opponentDepartment;  //상대방 대학
+    }
 }
