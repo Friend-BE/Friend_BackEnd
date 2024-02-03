@@ -58,10 +58,10 @@ public class MatchingController {
         }
     }
     @Operation(summary = "신고 가능한 유저 출력")
-    @GetMapping("report/reportList/{userId}")
-    public ResponseEntity getReportList2(@PathVariable Long userId){
+    @GetMapping("report/reportList/{id}")
+    public ResponseEntity getReportList(@PathVariable Long id){
         try{
-            List<MatchingResponseDTO.getReportListDTO> matchings = matchingService.getReportListById(userId);
+            List<MatchingResponseDTO.getReportListDTO> matchings = matchingService.getReportListById(id);
             return new ResponseEntity(Response.success(matchings),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
