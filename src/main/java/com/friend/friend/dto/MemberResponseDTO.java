@@ -100,4 +100,13 @@ public class MemberResponseDTO {
         GenderEnum gender;
         LocalDateTime createdAt;
     }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReportResponseDTO{
+        Long memberId;
+        String nickname;
+        int count;
+    }
 }

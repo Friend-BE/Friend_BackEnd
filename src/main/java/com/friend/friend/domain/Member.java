@@ -44,6 +44,7 @@ public class Member extends BaseEntity {
     private String nonage;
     private String nonRegion;
     private String imgUrl;
+    private int warning;
 
     public Member() {}
 
@@ -75,6 +76,7 @@ public class Member extends BaseEntity {
                 .nonage(request.getNonage())
                 .nonRegion(request.getNonRegion())
                 .imgUrl(imgurl)
+                .warning(0)
                 .build();
     }
 }

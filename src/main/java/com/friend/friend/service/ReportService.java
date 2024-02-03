@@ -2,6 +2,8 @@ package com.friend.friend.service;
 
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.board.Report;
+import com.friend.friend.domain.enums.AccountStatusEnum;
+import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.dto.ReportRequestDto;
 import com.friend.friend.dto.ReportResponseDto;
 import com.friend.friend.repository.MemberRepository;
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +45,28 @@ public class ReportService {
             return reports;
         } else {
             return Collections.emptyList();
+        }
+    }
+    @Transactional
+    public MemberResponseDTO.ReportResponseDTO addReportCount(Long id) {
+        Optional<Member> memberOptional = memberRepository.findById(id);
+        if (memberOptional.isPresent()) {
+            Member member = memberOptional.get();
+            if(member.getWarning()+1==3){
+                member.setStatus(AccountStatusEnum.SUSPENDED);
+            }
+            member.setWarning(member.getWarning() + 1);
+
+            memberRepository.save(member);
+
+            MemberResponseDTO.ReportResponseDTO response = MemberResponseDTO.ReportResponseDTO.builder()
+                    .memberId(member.getId())
+                    .nickname(member.getNickname())
+                    .count(member.getWarning())
+                    .build();
+            return response;
+        }else{
+            return (MemberResponseDTO.ReportResponseDTO) Collections.emptyList();
         }
     }
 }
