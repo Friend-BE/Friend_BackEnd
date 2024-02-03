@@ -38,17 +38,6 @@ public class MatchingService {
     /**
      * 신고 가능한 유저는 이미 완료된 상태의 매칭 기록을 불러와야함
      */
-//    public List<MatchingResponseDTO.getReportListDTO> getReportListById(Long id) {
-//        List<Matching> byMemberIdAndStatus = matchingRepository.findByMember_IdAndStatus(id, MatchingStatusEnum.COMPLETE);
-//
-//        if (byMemberIdAndStatus.isEmpty()) {
-//            throw new IllegalArgumentException("존재하지 않는 id 입니다");
-//        }
-//        for (Matching memberIdAndStatus : byMemberIdAndStatus) {
-//            System.out.println("memberIdAndStatus.getId() = " + memberIdAndStatus.getId());
-//        }
-//        return null;
-//    }
     public List<MatchingResponseDTO.getReportListDTO> getReportListById(Long id) {
         List<Matching> byMemberIdAndStatus = matchingRepository.findByMember_IdAndStatus(id, MatchingStatusEnum.COMPLETE);
 
@@ -58,7 +47,7 @@ public class MatchingService {
 
         return byMemberIdAndStatus.stream()
                 .map(matching -> {
-                    Optional<Member> memberOptional = memberRepository.findByEmail(matching.getOpponent());
+                    Optional<Member> memberOptional = memberRepository.findByNickname(matching.getOpponent());
                     if (memberOptional.isPresent()) {
                         Member member = memberOptional.get();
                         return new MatchingResponseDTO.getReportListDTO(
