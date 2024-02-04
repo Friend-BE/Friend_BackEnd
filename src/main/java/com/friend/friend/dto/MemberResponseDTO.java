@@ -50,6 +50,7 @@ public class MemberResponseDTO {
     public static class LoginResultDTO{
         Long memberId;
         String status;
+        String email;
         String role;
     }
     @Builder
@@ -84,6 +85,7 @@ public class MemberResponseDTO {
     }
     public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(Member member){
         return LoginResultDTO.builder()
+                .email(member.getEmail())
                 .memberId(member.getId())
                 .status(member.getStatus().toString())
                 .role(member.getRole().toString())
@@ -99,5 +101,14 @@ public class MemberResponseDTO {
         String nickname;
         GenderEnum gender;
         LocalDateTime createdAt;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReportResponseDTO{
+        Long memberId;
+        String nickname;
+        int count;
     }
 }

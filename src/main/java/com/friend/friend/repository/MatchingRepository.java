@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface MatchingRepository extends JpaRepository<Matching,Long> {
 
     List<Matching> findByMember_Id(Long id);
-//
-//    List<Matching> findByMember_IdAndStatus(Long memberId, MatchingStatusEnum status);
+
+    List<Matching> findByMember_IdAndStatus(Long memberId, MatchingStatusEnum status);
 }

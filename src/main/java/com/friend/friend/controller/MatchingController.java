@@ -35,7 +35,7 @@ public class MatchingController {
     /**
      * 마이페이지 -2 (매칭내역) 조회
      */
-    @Operation(summary = "매칭내역 조회")
+    @Operation(summary = "각 유저 별 매칭내역 조회")
     @GetMapping("myPage/matchinglist/{userId}")
     public ResponseEntity getMypage2(@PathVariable Long userId){
         try {
@@ -57,25 +57,14 @@ public class MatchingController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
-//    @Operation(summary = "신고 가능한 유저 출력")
-//    @GetMapping("report/{userId}")
-//    public ResponseEntity getReportList(@PathVariable Long userId){
-//        try{
-//            List<Matching> matchings = matchingService.getReportListById(userId);
-//            Iterator<Matching> iteratorMatching = matchings.iterator();
-//            List<MatchingResponseDTO.getReportListDTO> resultDTO = new ArrayList<>();
-//            while(iteratorMatching.hasNext()){
-//                Matching matching = iteratorMatching.next();
-//                resultDTO.add(MatchingResponseDTO.getReportListDTO.builder()
-//                                .id(matching.getId())
-//                                .date(matching.getDate())
-//                                .opponent(matching.getOpponent())
-//                                .build()
-//                );
-//            }
-//            return new ResponseEntity(Response.success(resultDTO),HttpStatus.OK);
-//        }catch (Exception e){
-//            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @Operation(summary = "신고 가능한 유저 출력")
+    @GetMapping("report/reportList/{id}")
+    public ResponseEntity getReportList(@PathVariable Long id){
+        try{
+            List<MatchingResponseDTO.getReportListDTO> matchings = matchingService.getReportListById(id);
+            return new ResponseEntity(Response.success(matchings),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }
