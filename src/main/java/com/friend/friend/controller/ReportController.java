@@ -1,6 +1,7 @@
 package com.friend.friend.controller;
 
 import com.friend.friend.common.Response;
+import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.dto.ReportRequestDto;
 import com.friend.friend.dto.ReportResponseDto;
 import com.friend.friend.service.ReportService;
@@ -63,6 +64,15 @@ public class ReportController {
         } else {
             return new ResponseEntity(Response.success(result), HttpStatus.OK);
         }
-
+    }
+    @Operation(summary = "회원 경고처리")
+    @GetMapping("/report/addReportCount/{badMemberid}")
+    public ResponseEntity addReportByMember(@PathVariable Long badMemberid){
+        try{
+            MemberResponseDTO.ReportResponseDTO responseDTO = reportService.addReportCount(badMemberid);
+            return new ResponseEntity(Response.success(responseDTO),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
     }
 }

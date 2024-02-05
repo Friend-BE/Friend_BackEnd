@@ -68,6 +68,7 @@ public class Member extends BaseEntity {
     private String nonRegion;
 
     private String imgUrl;
+    private int warning;
 
     @OneToMany(mappedBy = "member")
     private List<Matching> matchingList = new ArrayList<>();
@@ -103,6 +104,7 @@ public class Member extends BaseEntity {
                 .nonage(request.getNonage())
                 .nonRegion(request.getNonRegion())
                 .imgUrl(imgurl)
+                .warning(0)
                 .build();
     }
 }

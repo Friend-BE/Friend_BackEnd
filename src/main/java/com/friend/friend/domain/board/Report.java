@@ -1,5 +1,6 @@
 package com.friend.friend.domain.board;
 
+import com.friend.friend.domain.enums.AnswerStatusEnum;
 import com.friend.friend.dto.ReportRequestDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
