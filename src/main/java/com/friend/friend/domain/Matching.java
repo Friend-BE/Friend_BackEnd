@@ -2,7 +2,9 @@ package com.friend.friend.domain;
 
 import com.friend.friend.common.BaseEntity;
 import com.friend.friend.domain.enums.MatchingStatusEnum;
+import com.friend.friend.dto.MatchingRequestDto;
 import jakarta.persistence.*;
+import javax.annotation.Nullable;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,16 +21,22 @@ public class Matching extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="memberId")
     private Member member;
 
     private LocalDateTime date;
 
+    @Column(nullable = true)
     private String opponent;
 
     private MatchingStatusEnum status;
 
+    @Column(nullable = true)
     private String birthday; //상대방 생년월일
 
+    public Matching(MatchingRequestDto requestDto) {
+        this.setStatus(requestDto.getStatusEnum());
+        this.setOpponent(requestDto.getOpponent());
+    }
 }

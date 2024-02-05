@@ -26,6 +26,7 @@ public class MatchingResponseDTO {
         private MatchingStatusEnum status; //매칭완료여부
         private String bithday; //상대방 생년월일
     }
+
     @Builder
     @Getter
     @NoArgsConstructor
@@ -38,4 +39,5 @@ public class MatchingResponseDTO {
         private String opponentBirthday; //상대방 생년월일
         private String opponentDepartment;  //상대방 대학
     }
+
 }
