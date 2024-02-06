@@ -22,9 +22,20 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final MemberRepository memberRepository;
     public boolean createReport(ReportRequestDto request){
-        Report report = new Report(request);
-        reportRepository.save(report);
-        return true;
+        try {
+            Optional<Member> badMember = memberRepository.findById(request.getBadMemberId());
+            if (badMember.isEmpty()) {
+                throw new IllegalArgumentException("존재하지 않는 id 입니다.");
+            }
+            if (request.getAuthor().equals(badMember.get().getNickname())) {
+                throw new Exception("신고자와 신고 대상이 같습니다.");
+            }
+            Report report = new Report(request);
+            reportRepository.save(report);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
     public List<ReportResponseDto> getAllReports(){
         return reportRepository.findAll().stream().map(ReportResponseDto::new).toList();
