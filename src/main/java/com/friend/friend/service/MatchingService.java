@@ -33,15 +33,18 @@ public class MatchingService {
     private final MatchingRepository matchingRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional(readOnly = false)
+    @Transactional
     public boolean createMatch(MatchingRequestDto matchingRequestDto, Long userId) {
         try {
             Optional<Member> optionalMember = memberRepository.findById(userId);
             if (optionalMember.isPresent()) {
                 Member member = optionalMember.get();
                 Matching matching = new Matching(matchingRequestDto);
-                matching.setMember(member);
+//                matching.setId(member.getId());
+                matching.setName(member.getNickname());
+                matching.setGender(member.getGender());
                 matching.setStatus(MatchingStatusEnum.INCOMPLETE);
+                matching.setMember(member);
                 matchingRepository.save(matching);
                 return true; // 매칭 생성 성공
             } else {
