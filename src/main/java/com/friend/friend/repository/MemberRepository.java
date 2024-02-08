@@ -21,4 +21,8 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     List<Member> findByStatus(AccountStatusEnum status);
 
     List<Member> findByStatusAndGenderAndCreatedAtBetween(AccountStatusEnum status, GenderEnum gender, LocalDateTime stDate, LocalDateTime enDate);
+
+    void deleteByEmail(String email);
+
+
 }

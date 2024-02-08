@@ -1,9 +1,11 @@
 package com.friend.friend.service;
 
 import com.friend.friend.domain.Member;
+import com.friend.friend.domain.board.Qa;
 import com.friend.friend.domain.enums.AccountStatusEnum;
 import com.friend.friend.domain.enums.GenderEnum;
 import com.friend.friend.dto.MemberResponseDTO;
+import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.repository.MemberRepository;
 
 import java.time.LocalDate;
@@ -97,5 +99,49 @@ public class MemberService {
         } else {
             throw new IllegalArgumentException("성별은 0 또는 1만 입력 가능합니다.");
         }
+    }
+
+    /**
+     * email을 이용해서 member 삭제
+     */
+    @Transactional
+    public MemberResponseDTO.successDeleteDTO deleteMember(String email) {
+
+        Member deletedMember = memberRepository.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 멤버 입니다")
+        );
+
+
+        memberRepository.deleteByEmail(email);
+
+        MemberResponseDTO.successDeleteDTO successDeleteMember = MemberResponseDTO.successDeleteDTO.builder()
+                .id(deletedMember.getId())
+                .success("success")
+                .email(deletedMember.getEmail())
+                .build();
+
+        return successDeleteMember;
+    }
+
+    /**
+     * email을 이용해서 member 의 status를 inactive
+     */
+    @Transactional
+    public  MemberResponseDTO.statusInactiveDTO inActiveMember(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 멤버 입니다")
+        );
+
+        member.setStatus(AccountStatusEnum.INACTIVE);
+
+        MemberResponseDTO.statusInactiveDTO statusInactiveDTO = MemberResponseDTO.statusInactiveDTO.builder()
+                .id(member.getId())
+                .success("success")
+                .email(member.getEmail())
+                .accountStatusEnum(member.getStatus())
+                .build();
+
+        return statusInactiveDTO;
+
     }
 }

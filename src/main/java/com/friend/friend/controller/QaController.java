@@ -45,6 +45,8 @@ public class QaController {
                         .privacy(qa.getPrivacy())
                         .title(qa.getTitle())
                         .author(qa.getAuthor())
+                        .updatedAt(qa.getUpdatedAt())
+                        .status(qa.getStatus())
                         .build());
             }
             return new ResponseEntity(Response.success(returnQa), HttpStatus.OK);
@@ -64,9 +66,10 @@ public class QaController {
         QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
                 .id(qa.getId())
                 .body(qa.getBody())
-                .createdAt(qa.getCreatedAt())
+                .updatedAt(qa.getUpdatedAt())
                 .title(qa.getTitle())
                 .author(qa.getAuthor())
+                .status(qa.getStatus())
                 .build();
         if(getQaDTO!=null){
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
@@ -96,9 +99,10 @@ public class QaController {
         QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
                 .id(qa2.getId())
                 .body(qa2.getBody())
-                .createdAt(qa2.getCreatedAt())
+                .updatedAt(qa2.getUpdatedAt())
                 .title(qa2.getTitle())
                 .author(qa2.getAuthor())
+                .status(qa.getStatus())
                 .build();
         if(getQaDTO!=null){
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
@@ -116,9 +120,10 @@ public class QaController {
         QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
                 .id(qa.getId())
                 .body(qa.getBody())
-                .createdAt(qa.getCreatedAt())
+                .updatedAt(qa.getUpdatedAt())
                 .title(qa.getTitle())
                 .author(qa.getAuthor())
+                .status(qa.getStatus())
                 .build();
         if(getQaDTO!=null){
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
