@@ -5,6 +5,7 @@ import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.dto.ReportRequestDto;
 import com.friend.friend.dto.ReportResponseDto;
 import com.friend.friend.service.ReportService;
+import com.google.api.Http;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -73,6 +74,17 @@ public class ReportController {
             return new ResponseEntity(Response.success(responseDTO),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "신고 처리하기")
+    @PostMapping ("/report/complete")
+    public ResponseEntity completeReport(@RequestParam Long id) {
+        try {
+            ReportResponseDto.completedReportDto responseDTO = reportService.completedReport(id);
+            return new ResponseEntity(Response.success(responseDTO), HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
         }
     }
 }
