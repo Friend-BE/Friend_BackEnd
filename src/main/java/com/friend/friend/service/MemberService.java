@@ -38,6 +38,7 @@ public class MemberService {
     @Transactional //readOnly = false -> default
     public Long join(Member member) {
         validateDuplicateMember(member);
+        validateDuplicateMemberByNickname(member);
         memberRepository.save(member);
         return member.getId(); //아이디라도 return 해 줘야 뭐가 저장된지 알 수 있다.
     }
@@ -45,6 +46,15 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
         //Exception
         Optional<Member> findMembers = memberRepository.findByEmail(member.getEmail());
+        findMembers.ifPresent(
+                m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다");
+                }
+        );
+    }
+    private void validateDuplicateMemberByNickname(Member member) {
+        //Exception
+        Optional<Member> findMembers = memberRepository.findByNickname(member.getNickname());
         findMembers.ifPresent(
                 m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다");
