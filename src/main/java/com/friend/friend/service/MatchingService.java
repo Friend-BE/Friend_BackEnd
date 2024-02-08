@@ -1,25 +1,15 @@
 package com.friend.friend.service;
 
-
-
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.friend.friend.domain.Matching;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.enums.MatchingStatusEnum;
 import com.friend.friend.dto.MatchingResponseDTO;
 import com.friend.friend.dto.MatchingRequestDto;
-import com.friend.friend.dto.MemberResponseDTO;
-
 import com.friend.friend.repository.MatchingRepository;
 import com.friend.friend.repository.MemberRepository;
-import jakarta.validation.constraints.Null;
-
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
