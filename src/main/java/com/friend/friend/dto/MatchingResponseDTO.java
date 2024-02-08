@@ -39,5 +39,14 @@ public class MatchingResponseDTO {
         private String opponentBirthday; //상대방 생년월일
         private String opponentDepartment;  //상대방 대학
     }
-
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class makeMatchingDTO {
+        private Long manId;
+        private Long womanId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
+        private LocalDateTime date;   //날짜
+    }
 }
