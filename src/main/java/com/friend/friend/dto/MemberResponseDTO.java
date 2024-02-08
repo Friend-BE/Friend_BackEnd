@@ -71,6 +71,7 @@ public class MemberResponseDTO {
         Long memberId;
         String status;
         String email;
+        String nickname;
         String role;
     }
     @Builder
@@ -108,6 +109,7 @@ public class MemberResponseDTO {
                 .email(member.getEmail())
                 .memberId(member.getId())
                 .status(member.getStatus().toString())
+                .nickname(member.getNickname())
                 .role(member.getRole().toString())
                 .build();
     }
