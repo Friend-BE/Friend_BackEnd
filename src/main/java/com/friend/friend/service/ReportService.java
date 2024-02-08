@@ -3,6 +3,7 @@ package com.friend.friend.service;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.board.Report;
 import com.friend.friend.domain.enums.AccountStatusEnum;
+import com.friend.friend.domain.enums.ReportStatusEnum;
 import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.dto.ReportRequestDto;
 import com.friend.friend.dto.ReportResponseDto;
@@ -22,9 +23,20 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final MemberRepository memberRepository;
     public boolean createReport(ReportRequestDto request){
-        Report report = new Report(request);
-        reportRepository.save(report);
-        return true;
+        try {
+            Optional<Member> badMember = memberRepository.findById(request.getBadMemberId());
+            if (badMember.isEmpty()) {
+                throw new IllegalArgumentException("존재하지 않는 id 입니다.");
+            }
+            if (request.getAuthor().equals(badMember.get().getNickname())) {
+                throw new Exception("신고자와 신고 대상이 같습니다.");
+            }
+            Report report = new Report(request);
+            reportRepository.save(report);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
     public List<ReportResponseDto> getAllReports(){
         return reportRepository.findAll().stream().map(ReportResponseDto::new).toList();
@@ -67,6 +79,33 @@ public class ReportService {
             return response;
         }else{
             return (MemberResponseDTO.ReportResponseDTO) Collections.emptyList();
+        }
+    }
+
+    public ReportResponseDto.completedReportDto completedReport(Long id){
+        try {
+            Optional<Report> reportOptional = reportRepository.findById(id);
+            if (reportOptional.isEmpty()) {
+                throw new IllegalArgumentException("존재하지 않는 id 입니다.");
+            }
+
+            Report report = reportOptional.get();
+
+            if(report.getReportStatus().equals(ReportStatusEnum.COMPLETE)){
+                throw new Exception("이미 처리되었습니다.");
+            }
+
+            report.setReportStatus(ReportStatusEnum.COMPLETE);
+            reportRepository.save(report);
+
+            ReportResponseDto.completedReportDto reportDto = ReportResponseDto.completedReportDto.builder()
+                    .id(report.getId())
+                    .status(report.getReportStatus())
+                    .build();
+
+            return reportDto;
+        } catch (Exception e){
+            return null;
         }
     }
 }
