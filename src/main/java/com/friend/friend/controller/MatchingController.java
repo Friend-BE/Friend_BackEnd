@@ -92,5 +92,14 @@ public class MatchingController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
-
+    @Operation(summary = "매칭 신청한 유저 모아보기")
+    @GetMapping("match/list")
+    public ResponseEntity matchingRequestList(){
+        try{
+            List<MatchingResponseDTO.matchRequestListDTO> matchRequest = matchingService.findMatchRequest();
+            return new ResponseEntity(Response.success(matchRequest),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }
