@@ -160,6 +160,15 @@ public class MemberController {
         }
     }
 
+
+    // 회원 정보 수정 -> 비밀번호 수정
+    public ResponseEntity updatePassword() {
+        return new ResponseEntity(Response.success(),HttpStatus.OK);
+    }
+    //회원 정보 수정 -> 기본정보 수정
+    public ResponseEntity updateProfile() {
+        return new ResponseEntity(Response.success(),HttpStatus.OK);
+
     @Operation(summary = "탈퇴하기")
     @DeleteMapping("/member/{email}")
     public ResponseEntity DeleteMember(@PathVariable String email){
@@ -180,5 +189,6 @@ public class MemberController {
         }catch(IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
+
     }
 }
