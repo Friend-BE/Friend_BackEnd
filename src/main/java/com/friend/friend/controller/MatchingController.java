@@ -82,7 +82,7 @@ public class MatchingController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
-    @Operation(summary = "관리자-매칭 해주기")
+    @Operation(summary = "관리자-매칭 이어주기")
     @GetMapping("/match/make/{manId}/{womanId}")
     public ResponseEntity makeMatch(@PathVariable Long manId, @PathVariable Long womanId) {
         try{
