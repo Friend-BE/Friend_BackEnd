@@ -35,7 +35,7 @@ public class MemberController {
     private final MemberService memberService;
     private final FireBaseService fireBaseService;
     private final PasswordEncoder passwordEncoder;
-  
+
     @Operation(summary = "회원가입")
     @PostMapping("/users")
     public ResponseEntity joinMember(
@@ -167,7 +167,8 @@ public class MemberController {
     }
     //회원 정보 수정 -> 기본정보 수정
     public ResponseEntity updateProfile() {
-        return new ResponseEntity(Response.success(),HttpStatus.OK);
+        return new ResponseEntity(Response.success(), HttpStatus.OK);
+    }
 
     @Operation(summary = "탈퇴하기")
     @DeleteMapping("/member/{email}")
