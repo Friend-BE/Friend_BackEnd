@@ -125,6 +125,7 @@ public class MemberController {
         Member member = memberService.getMemberByEmail(email);
 
         MemberResponseDTO.profileDTO profileDTO = MemberResponseDTO.profileDTO.builder()
+                .phone(member.getPhone())
                 .distance(member.getDistance())
                 .birthday(member.getBirthday())
                 .height(member.getHeight())

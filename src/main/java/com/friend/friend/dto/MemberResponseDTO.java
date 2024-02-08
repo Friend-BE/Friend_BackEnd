@@ -23,6 +23,7 @@ public class MemberResponseDTO {
         String birthday;
         double height;
         String region;
+        String phone;
         DistanceEnum distance;
         SmokingEnum smoking;
         DrinkingEnum drinking;
