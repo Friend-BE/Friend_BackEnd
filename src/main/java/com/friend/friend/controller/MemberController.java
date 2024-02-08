@@ -127,6 +127,7 @@ public class MemberController {
         Member member = memberService.getMemberByEmail(email);
 
         MemberResponseDTO.profileDTO profileDTO = MemberResponseDTO.profileDTO.builder()
+                .phone(member.getPhone())
                 .distance(member.getDistance())
                 .birthday(member.getBirthday())
                 .height(member.getHeight())
@@ -151,19 +152,7 @@ public class MemberController {
     public ResponseEntity getMemberList(@RequestParam Integer gender,
                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") String date){
         try {
-            List<Member> memberList = memberService.memberList(gender, date);
-            List<MemberResponseDTO.memberListDTO> result = new ArrayList<>();
-
-            for (Member member : memberList) {
-                MemberResponseDTO.memberListDTO resultDTO = MemberResponseDTO.memberListDTO.builder()
-                        .memberId(member.getId())
-                        .nickname(member.getNickname())
-                        .gender(member.getGender())
-                        .createdAt(member.getCreatedAt())
-                        .build();
-                result.add(resultDTO);
-            }
-
+            List<MemberResponseDTO.memberListDTO> result = memberService.memberList(gender, date);
             return new ResponseEntity(Response.success(result), HttpStatus.OK);
         }
         catch (Exception e){

@@ -1,9 +1,12 @@
 package com.friend.friend.domain;
 
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 import com.friend.friend.common.BaseEntity;
 import com.friend.friend.domain.enums.*;
 import com.friend.friend.dto.MemberRequestDTO;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,40 +17,66 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ToString
 @AllArgsConstructor
 public class Member extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String email;
+
     private String password;
+
     @Enumerated(EnumType.STRING)
     private AccountStatusEnum status;
+
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
+
     private String nickname;
+
     private String phone;
+
     private String birthday;
+
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
+
     private double height;
+
     private String region;
+
     private String department;
+
     @Enumerated(EnumType.STRING)
     private DistanceEnum distance;
+
     @Enumerated(EnumType.STRING)
     private SmokingEnum smoking;
+
     @Enumerated(EnumType.STRING)
     private DrinkingEnum drinking;
+
     private String introduction;
+
     private String preference;
+
     private String nondepartment;
+
     private String nonstudentid;
+
     private String nonage;
+
     private String nonRegion;
+
     private String imgUrl;
+    private int warning;
 
-    public Member() {}
+    @OneToMany(mappedBy = "member")
+    private List<Matching> matchingList = new ArrayList<>();
+    public Member() {
+    }
 
-    public static Member toMember(MemberRequestDTO.MemberJoinDTO request, PasswordEncoder passwordEncoder,String imgurl) {
+    public static Member toMember(MemberRequestDTO.MemberJoinDTO request, PasswordEncoder passwordEncoder,
+                                  String imgurl) {
         RoleEnum role = (request.getRole() == 0) ? RoleEnum.USER : RoleEnum.ADMIN;
         GenderEnum gender = (request.getGender() == 0) ? GenderEnum.FEMALE : GenderEnum.MALE;
         DistanceEnum distance = (request.getDistance() == 0) ? DistanceEnum.LONG : DistanceEnum.SHORT;
@@ -75,6 +104,7 @@ public class Member extends BaseEntity {
                 .nonage(request.getNonage())
                 .nonRegion(request.getNonRegion())
                 .imgUrl(imgurl)
+                .warning(0)
                 .build();
     }
 }
