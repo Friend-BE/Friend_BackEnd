@@ -100,4 +100,19 @@ public class MatchingService {
         }
     }
 
+//    @Transactional
+//    public Boolean makeMatching(Long manId, Long womanId) {
+//        Optional<List<Matching>> Matching_Man = matchingRepository.findByMember_IdAndStatus(manId, MatchingStatusEnum.INCOMPLETE);
+//        Optional<List<Matching>> Matching_Woman = matchingRepository.findByMember_IdAndStatus(womanId, MatchingStatusEnum.INCOMPLETE);
+//        if(Matching_Man.isPresent()){
+//            if(Matching_Woman.isPresent()){
+//                List<Matching> man = Matching_Man.get();
+//                List<Matching> woman = Matching_Woman.get();
+//                Matching manMatch = man.get(0);
+//                Matching womanMatch = woman.get(0);
+//                manMatch.setOpponent(womanMatch.getName());
+//                womanMatch.setOpponent(manMatch.getName());
+//            }
+//        }
+//    }
 }
