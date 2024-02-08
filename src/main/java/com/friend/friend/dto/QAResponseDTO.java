@@ -21,8 +21,9 @@ public class QAResponseDTO {
         private Long id;
         private String title;   //제목
         private String author;    //작성자
-        private AnswerStatusEnum status;
+        private AnswerStatusEnum status; //답변여부
         private PrivacyEnum privacy;
+        private LocalDateTime updatedAt;
     }
 
     @Builder
@@ -33,8 +34,9 @@ public class QAResponseDTO {
         private Long id;
         private String title;   //제목
         private String body;     //본문
-        private LocalDateTime createdAt; //작성시간
+        private LocalDateTime updatedAt; //작성시간
         private String author;    //작성자
+        private AnswerStatusEnum status; //답변여부
     }
 
 }

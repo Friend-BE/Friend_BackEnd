@@ -1,10 +1,7 @@
 package com.friend.friend.dto;
 
 import com.friend.friend.domain.Member;
-import com.friend.friend.domain.enums.DistanceEnum;
-import com.friend.friend.domain.enums.DrinkingEnum;
-import com.friend.friend.domain.enums.GenderEnum;
-import com.friend.friend.domain.enums.SmokingEnum;
+import com.friend.friend.domain.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +29,29 @@ public class MemberResponseDTO {
         String imgUrl;
     }
 
-    
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class successDeleteDTO{
+        String success;
+        Long id;
+        String email;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class statusInactiveDTO{
+        String success;
+        Long id;
+        String email;
+        AccountStatusEnum accountStatusEnum;
+    }
+
+
+
     @Builder
     @Getter
     @NoArgsConstructor
