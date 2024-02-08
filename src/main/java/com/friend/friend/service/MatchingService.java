@@ -19,6 +19,7 @@ import jakarta.validation.constraints.Null;
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,6 +139,9 @@ public class MatchingService {
                         MatchingResponseDTO.makeMatchingDTO makeMatchingDTO = new MatchingResponseDTO.makeMatchingDTO();
                         makeMatchingDTO.setManId(member.getId());
                         makeMatchingDTO.setWomanId(member1.getId());
+                        makeMatchingDTO.setManPhone(member.getPhone());
+                        makeMatchingDTO.setWomanPhone(member1.getPhone());
+
                         makeMatchingDTO.setDate(now);
                         return makeMatchingDTO;
 
@@ -146,5 +150,26 @@ public class MatchingService {
             }
         }
         return null;
+    }
+
+    public List<MatchingResponseDTO.matchRequestListDTO> findMatchRequest() {
+        Optional<List<Matching>> optionalList = matchingRepository.findByStatus(MatchingStatusEnum.INCOMPLETE);
+        if(optionalList.isPresent()){
+            List<Matching> matchings = optionalList.get();
+            List<MatchingResponseDTO.matchRequestListDTO> matchRequestListDTOs = new ArrayList<>();
+            for (Matching matching : matchings) {
+                MatchingResponseDTO.matchRequestListDTO matchRequestListDTO = new MatchingResponseDTO.matchRequestListDTO();
+                matchRequestListDTO.setId(matching.getMember().getId());
+                matchRequestListDTO.setNickname(matching.getName());
+                matchRequestListDTO.setDate(matching.getCreatedAt());
+                matchRequestListDTO.setGender(matching.getGender());
+
+                matchRequestListDTOs.add(matchRequestListDTO);
+            }
+            return matchRequestListDTOs;
+        }else{
+            // 매칭 목록이 없는 경우에 대한 처리
+            return Collections.emptyList();
+        }
     }
 }
