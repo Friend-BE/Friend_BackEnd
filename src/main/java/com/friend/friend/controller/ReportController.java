@@ -67,7 +67,7 @@ public class ReportController {
         }
     }
     @Operation(summary = "회원 경고처리")
-    @GetMapping("/report/addReportCount/{badMemberid}")
+    @PostMapping("/report/addReportCount/{badMemberid}")
     public ResponseEntity addReportByMember(@PathVariable Long badMemberid){
         try{
             MemberResponseDTO.ReportResponseDTO responseDTO = reportService.addReportCount(badMemberid);
