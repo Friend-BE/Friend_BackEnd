@@ -3,6 +3,7 @@ package com.friend.friend.service;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.enums.AccountStatusEnum;
 import com.friend.friend.domain.enums.GenderEnum;
+import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.repository.MemberRepository;
 
 import java.time.LocalDate;
@@ -83,16 +84,18 @@ public class MemberService {
     }
 
 
-    public List<Member> memberList(Integer gender, String date){
+    public List<MemberResponseDTO.memberListDTO> memberList(Integer gender, String date){
         LocalDateTime start = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")).atStartOfDay();
         LocalDateTime end = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd")), LocalTime.of(23, 59, 59));
 
         if (gender == 0) {
-            return memberRepository.findByStatusAndGenderAndCreatedAtBetween(AccountStatusEnum.ACTIVE, GenderEnum.FEMALE, start, end);
-        }else if (gender == 1){
-            return memberRepository.findByStatusAndGenderAndCreatedAtBetween(AccountStatusEnum.ACTIVE, GenderEnum.MALE, start, end);
+            return memberRepository.findByStatusAndGenderAndCreatedAtBetween(AccountStatusEnum.ACTIVE, GenderEnum.FEMALE, start, end)
+                    .stream().map(MemberResponseDTO.memberListDTO::new).toList();
+        } else if (gender == 1){
+            return memberRepository.findByStatusAndGenderAndCreatedAtBetween(AccountStatusEnum.ACTIVE, GenderEnum.MALE, start, end)
+                    .stream().map(MemberResponseDTO.memberListDTO::new).toList();
+        } else {
+            throw new IllegalArgumentException("성별은 0 또는 1만 입력 가능합니다.");
         }
-
-        return null;
     }
 }

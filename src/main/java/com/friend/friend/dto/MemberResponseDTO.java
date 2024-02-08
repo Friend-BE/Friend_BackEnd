@@ -23,6 +23,7 @@ public class MemberResponseDTO {
         String birthday;
         double height;
         String region;
+        String phone;
         DistanceEnum distance;
         SmokingEnum smoking;
         DrinkingEnum drinking;
@@ -101,6 +102,13 @@ public class MemberResponseDTO {
         String nickname;
         GenderEnum gender;
         LocalDateTime createdAt;
+
+        public memberListDTO(Member member) {
+            this.memberId = member.getId();
+            this.nickname = member.getNickname();
+            this.gender = member.getGender();
+            this.createdAt = member.getCreatedAt();
+        }
     }
     @Builder
     @Getter
