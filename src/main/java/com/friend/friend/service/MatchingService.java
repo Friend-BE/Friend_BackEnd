@@ -100,19 +100,51 @@ public class MatchingService {
         }
     }
 
-//    @Transactional
-//    public Boolean makeMatching(Long manId, Long womanId) {
-//        Optional<List<Matching>> Matching_Man = matchingRepository.findByMember_IdAndStatus(manId, MatchingStatusEnum.INCOMPLETE);
-//        Optional<List<Matching>> Matching_Woman = matchingRepository.findByMember_IdAndStatus(womanId, MatchingStatusEnum.INCOMPLETE);
-//        if(Matching_Man.isPresent()){
-//            if(Matching_Woman.isPresent()){
-//                List<Matching> man = Matching_Man.get();
-//                List<Matching> woman = Matching_Woman.get();
-//                Matching manMatch = man.get(0);
-//                Matching womanMatch = woman.get(0);
-//                manMatch.setOpponent(womanMatch.getName());
-//                womanMatch.setOpponent(manMatch.getName());
-//            }
-//        }
-//    }
+    @Transactional
+    public MatchingResponseDTO.makeMatchingDTO makeMatching(Long manId, Long womanId) {
+        Optional<List<Matching>> Matching_Man = matchingRepository.findByMember_IdAndStatus(manId, MatchingStatusEnum.INCOMPLETE);
+        Optional<List<Matching>> Matching_Woman = matchingRepository.findByMember_IdAndStatus(womanId, MatchingStatusEnum.INCOMPLETE);
+        Optional<Member> manMember = memberRepository.findById(manId);
+        Optional<Member> womanMember = memberRepository.findById(womanId);
+        if (Matching_Man.isPresent()) {
+            if (Matching_Woman.isPresent()) {
+                if (manMember.isPresent()) {
+                    if (womanMember.isPresent()) {
+                        Member member = manMember.get();
+                        Member member1 = womanMember.get();
+                        List<Matching> man = Matching_Man.get();
+                        List<Matching> woman = Matching_Woman.get();
+                        Matching manMatch = man.get(0);
+                        Matching womanMatch = woman.get(0);
+                        //상대방 이름 설정
+                        manMatch.setOpponent(womanMatch.getName());
+                        womanMatch.setOpponent(manMatch.getName());
+
+                        //상대방 생년월일 설정
+                        manMatch.setBirthday(member.getBirthday());
+                        womanMatch.setBirthday(member1.getBirthday());
+                        //매칭 날짜 설정
+                        LocalDateTime now = LocalDateTime.now();
+
+                        manMatch.setDate(now);
+                        womanMatch.setDate(now);
+
+                        manMatch.setStatus(MatchingStatusEnum.COMPLETE);
+                        womanMatch.setStatus(MatchingStatusEnum.COMPLETE);
+
+                        matchingRepository.save(manMatch);
+                        matchingRepository.save(womanMatch);
+
+                        MatchingResponseDTO.makeMatchingDTO makeMatchingDTO = new MatchingResponseDTO.makeMatchingDTO();
+                        makeMatchingDTO.setManId(member.getId());
+                        makeMatchingDTO.setWomanId(member1.getId());
+                        makeMatchingDTO.setDate(now);
+                        return makeMatchingDTO;
+
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

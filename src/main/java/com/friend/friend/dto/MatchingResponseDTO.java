@@ -3,10 +3,7 @@ package com.friend.friend.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.friend.friend.domain.enums.AnswerStatusEnum;
 import com.friend.friend.domain.enums.MatchingStatusEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +38,7 @@ public class MatchingResponseDTO {
     }
     @Builder
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class makeMatchingDTO {
