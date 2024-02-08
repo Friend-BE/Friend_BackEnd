@@ -4,6 +4,7 @@ import com.friend.friend.common.Response;
 import com.friend.friend.domain.Member;
 import com.friend.friend.dto.MemberRequestDTO;
 import com.friend.friend.dto.MemberResponseDTO;
+import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.service.FireBaseService;
 import com.friend.friend.service.MemberService;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 
@@ -38,7 +40,7 @@ public class MemberController {
     @PostMapping("/users")
     public ResponseEntity joinMember(
             @RequestPart(value = "request") MemberRequestDTO.MemberJoinDTO request,
-            @RequestPart("image") MultipartFile file) throws IOException, FirebaseAuthException {
+             @RequestPart(value = "image",required = false) MultipartFile file) throws IOException, FirebaseAuthException {
         String imgUrl = fireBaseService.uploadFiles(file, request.getEmail());
 
         Member member = Member.toMember(request, passwordEncoder, imgUrl);
@@ -125,6 +127,7 @@ public class MemberController {
         Member member = memberService.getMemberByEmail(email);
 
         MemberResponseDTO.profileDTO profileDTO = MemberResponseDTO.profileDTO.builder()
+                .phone(member.getPhone())
                 .distance(member.getDistance())
                 .birthday(member.getBirthday())
                 .height(member.getHeight())
@@ -149,25 +152,14 @@ public class MemberController {
     public ResponseEntity getMemberList(@RequestParam Integer gender,
                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") String date){
         try {
-            List<Member> memberList = memberService.memberList(gender, date);
-            List<MemberResponseDTO.memberListDTO> result = new ArrayList<>();
-
-            for (Member member : memberList) {
-                MemberResponseDTO.memberListDTO resultDTO = MemberResponseDTO.memberListDTO.builder()
-                        .memberId(member.getId())
-                        .nickname(member.getNickname())
-                        .gender(member.getGender())
-                        .createdAt(member.getCreatedAt())
-                        .build();
-                result.add(resultDTO);
-            }
-
+            List<MemberResponseDTO.memberListDTO> result = memberService.memberList(gender, date);
             return new ResponseEntity(Response.success(result), HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
+
 
     // 회원 정보 수정 -> 비밀번호 수정
     public ResponseEntity updatePassword() {
@@ -176,5 +168,27 @@ public class MemberController {
     //회원 정보 수정 -> 기본정보 수정
     public ResponseEntity updateProfile() {
         return new ResponseEntity(Response.success(),HttpStatus.OK);
+
+    @Operation(summary = "탈퇴하기")
+    @DeleteMapping("/member/{email}")
+    public ResponseEntity DeleteMember(@PathVariable String email){
+        try{
+            MemberResponseDTO.successDeleteDTO successDeleteDTO = memberService.deleteMember(email);
+            return new ResponseEntity(Response.success(successDeleteDTO),HttpStatus.OK);
+        }catch (IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "비활성화하기")
+    @PatchMapping("/member/status/{email}")
+    public ResponseEntity changeStatusMember(@PathVariable String email){
+        try{
+            MemberResponseDTO.statusInactiveDTO statusInactiveDTO = memberService.inActiveMember(email);
+            return new ResponseEntity(Response.success(statusInactiveDTO),HttpStatus.OK);
+        }catch(IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

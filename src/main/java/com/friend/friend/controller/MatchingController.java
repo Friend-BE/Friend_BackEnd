@@ -82,4 +82,24 @@ public class MatchingController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
+    @Operation(summary = "관리자-매칭 이어주기")
+    @GetMapping("/match/make/{manId}/{womanId}")
+    public ResponseEntity makeMatch(@PathVariable Long manId, @PathVariable Long womanId) {
+        try{
+            MatchingResponseDTO.makeMatchingDTO makeMatchingDTO = matchingService.makeMatching(manId, womanId);
+            return new ResponseEntity(Response.success(makeMatchingDTO),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
+    @Operation(summary = "매칭 신청한 유저 모아보기")
+    @GetMapping("match/list")
+    public ResponseEntity matchingRequestList(){
+        try{
+            List<MatchingResponseDTO.matchRequestListDTO> matchRequest = matchingService.findMatchRequest();
+            return new ResponseEntity(Response.success(matchRequest),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }

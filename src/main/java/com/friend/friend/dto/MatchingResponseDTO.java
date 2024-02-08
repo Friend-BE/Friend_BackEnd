@@ -2,11 +2,9 @@ package com.friend.friend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.friend.friend.domain.enums.AnswerStatusEnum;
+import com.friend.friend.domain.enums.GenderEnum;
 import com.friend.friend.domain.enums.MatchingStatusEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -39,5 +37,30 @@ public class MatchingResponseDTO {
         private String opponentBirthday; //상대방 생년월일
         private String opponentDepartment;  //상대방 대학
     }
+    @Builder
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class makeMatchingDTO {
+        private Long manId;
+        private Long womanId;
+        private String manPhone;
+        private String womanPhone;
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
+        private LocalDateTime date;   //날짜
+    }
 
+    @Builder
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class matchRequestListDTO {
+        private Long id;
+        private String Nickname;
+        private GenderEnum gender;
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
+        private LocalDateTime date;   //날짜
+    }
 }

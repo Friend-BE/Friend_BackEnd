@@ -1,7 +1,8 @@
 package com.friend.friend.repository;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
+
 import com.friend.friend.domain.Matching;
+import com.friend.friend.domain.board.Notice;
 import com.friend.friend.domain.enums.MatchingStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,8 @@ public interface MatchingRepository extends JpaRepository<Matching,Long> {
 
     List<Matching> findByMember_Id(Long id);
 
-    List<Matching> findByMember_IdAndStatus(Long memberId, MatchingStatusEnum status);
+    Optional<List<Matching>> findByMember_IdAndStatus(Long memberId, MatchingStatusEnum status);
+
+    Optional<List<Matching>> findByStatus(MatchingStatusEnum status);
+    List<Matching> findAllByMember_IdOrderByCreatedAtDesc(Long memberId);
 }
