@@ -62,6 +62,7 @@ public class MatchingController {
                 resultDTO.add(MatchingResponseDTO.getMatchingDTO.builder()
                         .id(matching.getId())
                         .date(matching.getDate())
+                                .department(memberService.findMember(matching.getOpponent()))
                         .opponent(matching.getOpponent())
                         .status(matching.getStatus())
                         .bithday(matching.getBirthday())
