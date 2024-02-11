@@ -132,6 +132,7 @@ public class MemberController {
                 .birthday(member.getBirthday())
                 .height(member.getHeight())
                 .region(member.getRegion())
+                .preference(member.getPreference())
                 .smoking(member.getSmoking())
                 .drinking(member.getDrinking())
                 .introduction(member.getIntroduction())

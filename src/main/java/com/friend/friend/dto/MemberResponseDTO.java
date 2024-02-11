@@ -21,6 +21,7 @@ public class MemberResponseDTO {
         double height;
         String region;
         String phone;
+        String preference;
         DistanceEnum distance;
         SmokingEnum smoking;
         DrinkingEnum drinking;
