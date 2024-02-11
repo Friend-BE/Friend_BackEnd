@@ -37,6 +37,7 @@ public class ManagerService {
                     .smoking(member.getSmoking())
                     .drinking(member.getDrinking())
                     .introduction(member.getIntroduction())
+                    .preference(member.getPreference())
                     .phone(member.getPhone())
                     .build();
 
