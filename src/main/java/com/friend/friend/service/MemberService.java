@@ -154,4 +154,14 @@ public class MemberService {
         return statusInactiveDTO;
 
     }
+
+    public String findMember(String opponent) {
+        Optional<Member> byNickname = memberRepository.findByNickname(opponent);
+        if(byNickname.isPresent()){
+            Member member = byNickname.get();
+            return member.getNickname();
+        }else{
+            return null;
+        }
+    }
 }

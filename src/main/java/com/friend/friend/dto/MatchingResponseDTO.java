@@ -19,7 +19,7 @@ public class MatchingResponseDTO {
 
         @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
         private LocalDateTime date;   //날짜
-
+        private String department;
         private String opponent;    //상대방
         private MatchingStatusEnum status; //매칭완료여부
         private String bithday; //상대방 생년월일
