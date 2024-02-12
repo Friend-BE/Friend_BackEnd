@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 public class MatchListByDateDTO {
     private Long id;
     private String manNickname;
+    private String manPhone;
     private String womanNickname;
+    private String womanPhone;
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
     private LocalDateTime matchDate;
 }
