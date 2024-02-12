@@ -76,6 +76,7 @@ public class MemberController {
             for (Member member : activateList) {
                 MemberResponseDTO.activateResultDTO result = MemberResponseDTO.activateResultDTO.builder()
                         .distance(member.getDistance())
+                        .gender(member.getGender())
                         .birthday(member.getBirthday())
                         .height(member.getHeight())
                         .region(member.getRegion())

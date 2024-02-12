@@ -85,6 +85,7 @@ public class MemberResponseDTO {
         double height;
         String region;
         DistanceEnum distance;
+        GenderEnum gender;
         SmokingEnum smoking;
         DrinkingEnum drinking;
         String department;
