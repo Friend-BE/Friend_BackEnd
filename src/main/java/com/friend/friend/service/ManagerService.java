@@ -93,8 +93,10 @@ public class ManagerService {
                 continue;
             }
         }
+        Long count=1L;
         for (String s : hashMap.keySet()) {
             MatchListByDateDTO dto = new MatchListByDateDTO().builder()
+                    .id(count++)
                     .manNickname(s)
                     .womanNickname(hashMap.get(s))
                     .matchDate(matchNameTimeMap.get(s))
