@@ -95,12 +95,21 @@ public class ManagerService {
         }
         Long count=1L;
         for (String s : hashMap.keySet()) {
-            MatchListByDateDTO dto = new MatchListByDateDTO().builder()
-                    .id(count++)
-                    .manNickname(s)
-                    .womanNickname(hashMap.get(s))
-                    .matchDate(matchNameTimeMap.get(s))
-                    .build();
+            Optional<Member> byNickname = memberRepository.findByNickname(s);
+            Optional<Member> byNickname1 = memberRepository.findByNickname(hashMap.get(s));
+            MatchListByDateDTO dto = null;
+            if(byNickname.isPresent()&&byNickname1.isPresent()){
+                Member man = byNickname.get();
+                Member woman = byNickname1.get();
+                dto = new MatchListByDateDTO().builder()
+                        .id(count++)
+                        .manNickname(s)
+                        .manPhone(man.getPhone())
+                        .womanPhone(woman.getPhone())
+                        .womanNickname(hashMap.get(s))
+                        .matchDate(matchNameTimeMap.get(s))
+                        .build();
+            }
             list.add(dto);
         }
         return list;
