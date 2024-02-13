@@ -1,12 +1,14 @@
 package com.friend.friend.service;
 
+import com.friend.friend.domain.Matching;
 import com.friend.friend.domain.Member;
+import com.friend.friend.domain.board.Board;
 import com.friend.friend.domain.board.Qa;
 import com.friend.friend.domain.enums.AccountStatusEnum;
 import com.friend.friend.domain.enums.GenderEnum;
 import com.friend.friend.dto.MemberResponseDTO;
 import com.friend.friend.dto.SuccessResponseDto;
-import com.friend.friend.repository.MemberRepository;
+import com.friend.friend.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MatchingRepository matchingRepository;
+    private final BoardRepository boardRepository;
 
 
     /**
@@ -121,8 +126,17 @@ public class MemberService {
                 () -> new IllegalArgumentException("존재하지 않는 멤버 입니다")
         );
 
+        //만약 삭제할 유저가 글을 쓰거나, 매칭을 신청한 경우 데이터 삭제해야함
+        List<Matching> matchings = matchingRepository.findByMember_Id(deletedMember.getId());
+        for (Matching matching : matchings) {
+            matchingRepository.deleteById(matching.getId());
+        }
+        List<Board> allByAuthor = boardRepository.findAllByAuthor(deletedMember.getNickname());
+        boardRepository.deleteAll(allByAuthor);
 
         memberRepository.deleteByEmail(email);
+
+//        memberRepository.delete(deletedMember);
 
         MemberResponseDTO.successDeleteDTO successDeleteMember = MemberResponseDTO.successDeleteDTO.builder()
                 .id(deletedMember.getId())
