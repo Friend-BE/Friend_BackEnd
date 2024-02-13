@@ -4,6 +4,7 @@ import com.friend.friend.common.Response;
 import com.friend.friend.domain.Member;
 import com.friend.friend.dto.MemberRequestDTO;
 import com.friend.friend.dto.MemberResponseDTO;
+import com.friend.friend.dto.ProfileNameResponseDTO;
 import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.service.FireBaseService;
 import com.friend.friend.service.MemberService;
@@ -192,6 +193,15 @@ public class MemberController {
         }catch(IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
-
+    }
+    @Operation(summary = "마이페이지(사진,이름)")
+    @GetMapping("/myPage/getImgName/{id}")
+    public ResponseEntity getProfileName(@PathVariable Long id){
+        try{
+            ProfileNameResponseDTO response = memberService.getProfileName(id);
+            return new ResponseEntity(Response.success(response),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
     }
 }
