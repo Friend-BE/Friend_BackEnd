@@ -7,6 +7,7 @@ import com.friend.friend.domain.board.Qa;
 import com.friend.friend.domain.enums.AccountStatusEnum;
 import com.friend.friend.domain.enums.GenderEnum;
 import com.friend.friend.dto.MemberResponseDTO;
+import com.friend.friend.dto.ProfileNameResponseDTO;
 import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.repository.*;
 
@@ -136,8 +137,6 @@ public class MemberService {
 
         memberRepository.deleteByEmail(email);
 
-//        memberRepository.delete(deletedMember);
-
         MemberResponseDTO.successDeleteDTO successDeleteMember = MemberResponseDTO.successDeleteDTO.builder()
                 .id(deletedMember.getId())
                 .success("success")
@@ -177,5 +176,18 @@ public class MemberService {
         }else{
             return null;
         }
+    }
+
+    public ProfileNameResponseDTO getProfileName(Long id) {
+        Optional<Member> memberOptional = memberRepository.findById(id);
+        ProfileNameResponseDTO responseDTO = null;
+        if (memberOptional.isPresent()){
+            Member member = memberOptional.get();
+            responseDTO = ProfileNameResponseDTO.builder()
+                    .imgUrl(member.getImgUrl())
+                    .Nickname(member.getNickname())
+                    .build();
+        }
+        return responseDTO;
     }
 }
