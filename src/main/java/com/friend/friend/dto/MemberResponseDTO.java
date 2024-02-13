@@ -1,5 +1,6 @@
 package com.friend.friend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.enums.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,10 @@ public class MemberResponseDTO {
         String department;
         String introduction;
         String imgUrl;
+        String nonDepartment;
+        String nonRegion;
+        String nonAge;
+        String nonStudentId;
     }
 
     @Builder
@@ -81,21 +86,10 @@ public class MemberResponseDTO {
     @AllArgsConstructor
     public static class activateResultDTO{
         String nickname;
-        String birthday;
-        double height;
-        String region;
-        DistanceEnum distance;
         GenderEnum gender;
-        SmokingEnum smoking;
-        DrinkingEnum drinking;
-        String department;
-        String introduction;
-        String imgUrl;
         String email;
-        String nondepartment;
-        String nonstudentid;
-        String nonage;
-        String nonRegion;
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
+        LocalDateTime time;
     }
 
     public static MemberResponseDTO.JoinResultDTO toJoinResultDTO(Member member){

@@ -76,22 +76,10 @@ public class MemberController {
             List<MemberResponseDTO.activateResultDTO> resultDTO = new ArrayList<>();
             for (Member member : activateList) {
                 MemberResponseDTO.activateResultDTO result = MemberResponseDTO.activateResultDTO.builder()
-                        .distance(member.getDistance())
                         .gender(member.getGender())
-                        .birthday(member.getBirthday())
-                        .height(member.getHeight())
-                        .region(member.getRegion())
-                        .smoking(member.getSmoking())
-                        .drinking(member.getDrinking())
-                        .introduction(member.getIntroduction())
-                        .nickname(member.getNickname())
-                        .department(member.getDepartment())
-                        .imgUrl(member.getImgUrl())
                         .email(member.getEmail())
-                        .nondepartment(member.getNondepartment())
-                        .nonRegion(member.getNonRegion())
-                        .nonstudentid(member.getNonstudentid())
-                        .nonage(member.getNonage())
+                        .nickname(member.getNickname())
+                        .time(member.getCreatedAt())
                         .build();
                 resultDTO.add(result);
             }
@@ -100,7 +88,6 @@ public class MemberController {
         }catch (IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
-
     }
     @Operation(summary = "로그인")
     @PostMapping("/login")
@@ -141,7 +128,12 @@ public class MemberController {
                 .nickname(member.getNickname())
                 .department(member.getDepartment())
                 .imgUrl(member.getImgUrl())
+                .nonAge(member.getNonage())
+                .nonDepartment(member.getNondepartment())
+                .nonRegion(member.getNonRegion())
+                .nonStudentId(member.getNonstudentid())
                 .build();
+
         if(profileDTO!=null){
             return new ResponseEntity(Response.success(profileDTO),HttpStatus.OK);
         }else{
