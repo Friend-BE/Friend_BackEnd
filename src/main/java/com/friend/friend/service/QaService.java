@@ -1,6 +1,7 @@
 package com.friend.friend.service;
 
 import com.friend.friend.domain.board.Qa;
+import com.friend.friend.dto.QAResponseDTO;
 import com.friend.friend.dto.QaRequestDTO;
 import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.repository.QaRepository;
@@ -37,6 +38,25 @@ public class QaService {
                 () -> new IllegalArgumentException("존재하지 않는 QA 입니다"));
 
         return qa;
+
+    }
+
+    @Transactional
+    public QAResponseDTO.getQaDTO answerQa(Long qaId, String answer){
+        Qa qa = getQa(qaId);
+        qa.setAnswer(answer);
+
+        QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+                .id(qa.getId())
+                .body(qa.getBody())
+                .updatedAt(qa.getUpdatedAt())
+                .title(qa.getTitle())
+                .author(qa.getAuthor())
+                .status(qa.getStatus())
+                .answer(qa.getAnswer())
+                .build();
+
+        return getQaDTO;
 
     }
 

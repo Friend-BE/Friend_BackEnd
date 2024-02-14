@@ -70,6 +70,7 @@ public class QaController {
                 .title(qa.getTitle())
                 .author(qa.getAuthor())
                 .status(qa.getStatus())
+                .answer(qa.getAnswer())
                 .build();
         if(getQaDTO!=null){
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
@@ -103,6 +104,7 @@ public class QaController {
                 .title(qa2.getTitle())
                 .author(qa2.getAuthor())
                 .status(qa.getStatus())
+                .answer(qa.getAnswer())
                 .build();
         if(getQaDTO!=null){
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
@@ -124,6 +126,7 @@ public class QaController {
                 .title(qa.getTitle())
                 .author(qa.getAuthor())
                 .status(qa.getStatus())
+                .answer(qa.getAnswer())
                 .build();
         if(getQaDTO!=null){
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
@@ -145,4 +148,20 @@ public class QaController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Qa 답변하기
+     */
+    @Operation(summary = "Q&A 답변하기")
+    @PatchMapping("/qa/{qaId}")
+    public ResponseEntity createQaAnser(@RequestBody String answer, @PathVariable Long qaId){
+        try{
+            QAResponseDTO.getQaDTO getQaDTO = qaService.answerQa(qaId, answer);
+            return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
+        }catch (IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    
 }

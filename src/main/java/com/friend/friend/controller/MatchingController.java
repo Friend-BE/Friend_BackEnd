@@ -4,6 +4,7 @@ import com.friend.friend.common.Response;
 import com.friend.friend.domain.Matching;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.board.Qa;
+import com.friend.friend.domain.enums.MatchingStatusEnum;
 import com.friend.friend.dto.MatchingRequestDto;
 import com.friend.friend.dto.MatchingResponseDTO;
 import com.friend.friend.dto.MemberResponseDTO;
@@ -59,6 +60,7 @@ public class MatchingController {
             List<MatchingResponseDTO.getMatchingDTO> resultDTO = new ArrayList<>();
             while (iteratorMatching.hasNext()) {
                 Matching matching = iteratorMatching.next();
+                if (matching.getStatus() == MatchingStatusEnum.COMPLETE)
                 resultDTO.add(MatchingResponseDTO.getMatchingDTO.builder()
                         .id(matching.getId())
                         .date(matching.getDate())
