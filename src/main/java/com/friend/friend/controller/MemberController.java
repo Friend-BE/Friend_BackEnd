@@ -140,8 +140,6 @@ public class MemberController {
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
-
-
     @Operation(summary = "회원 목록 가져오기")
     @GetMapping("/memberList")
     public ResponseEntity getMemberList(@RequestParam Integer gender,
