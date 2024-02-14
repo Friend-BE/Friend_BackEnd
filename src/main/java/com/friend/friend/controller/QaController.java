@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import static com.friend.friend.domain.enums.AnswerStatusEnum.INCOMPLETE;
 public class QaController {
 
     private final QaService qaService;
+    private final PasswordEncoder passwordEncoder;
 
 
     /**
@@ -60,21 +62,25 @@ public class QaController {
      * (Qa 모아보기 - 자세히)
      */
     @Operation(summary = "Q&A 상세 조회")
-    @GetMapping("/qa/{qaId}")
-    public ResponseEntity getQa(@PathVariable Long qaId){
-        Qa qa = qaService.getQa(qaId);
-        QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
-                .id(qa.getId())
-                .body(qa.getBody())
-                .updatedAt(qa.getUpdatedAt())
-                .title(qa.getTitle())
-                .author(qa.getAuthor())
-                .status(qa.getStatus())
-                .answer(qa.getAnswer())
-                .build();
-        if(getQaDTO!=null){
-            return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
-        }else{
+    @GetMapping("/qa/{qaId}/{password}")
+    public ResponseEntity getQa(@PathVariable Long qaId, @PathVariable String password){
+        try {
+            Qa qa = qaService.getQa(qaId, password);    //비밀번호 검증 로직 추가
+            QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+                    .id(qa.getId())
+                    .body(qa.getBody())
+                    .updatedAt(qa.getUpdatedAt())
+                    .title(qa.getTitle())
+                    .author(qa.getAuthor())
+                    .status(qa.getStatus())
+                    .answer(qa.getAnswer())
+                    .build();
+            if (getQaDTO != null) {
+                return new ResponseEntity(Response.success(getQaDTO), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
+            }
+        }catch (IllegalArgumentException ex){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
     }
@@ -90,7 +96,7 @@ public class QaController {
         qa.setPrivacy(writeQaDTO.getPrivacy());
         qa.setBody(writeQaDTO.getBody());
         qa.setAuthor(writeQaDTO.getAuthor());
-        qa.setPassword(writeQaDTO.getPassword());
+        qa.setPassword(passwordEncoder.encode(writeQaDTO.getPassword())); //비밀번호 암호화
         qa.setStatus(INCOMPLETE);
         qa.setAnswer(null);
 
