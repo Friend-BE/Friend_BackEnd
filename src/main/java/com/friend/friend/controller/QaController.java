@@ -62,8 +62,8 @@ public class QaController {
      * (Qa 모아보기 - 자세히)
      */
     @Operation(summary = "Q&A 상세 조회")
-    @GetMapping("/qa/{qaId}/{password}")
-    public ResponseEntity getQa(@PathVariable Long qaId, @PathVariable String password){
+    @GetMapping("/qa/{qaId}")
+    public ResponseEntity getQa(@PathVariable Long qaId, @RequestParam(required = false) String password){
         try {
             Qa qa = qaService.getQa(qaId, password);    //비밀번호 검증 로직 추가
             QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
@@ -81,7 +81,7 @@ public class QaController {
                 return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
             }
         }catch (IllegalArgumentException ex){
-            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
         }
     }
 

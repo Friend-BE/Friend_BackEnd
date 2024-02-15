@@ -32,6 +32,10 @@ public class Response<T> {
         return new Response<>(SUCCESS, data);
     }
 
+    public static <T> Response<String> failure(String message) {
+        return new Response<>(FAILURE, message);
+    }
+
     public static Response failure() {
         return Response.builder()
                 .responseType(FAILURE)
