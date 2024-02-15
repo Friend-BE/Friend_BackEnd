@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.friend.friend.domain.enums.AnswerStatusEnum.INCOMPLETE;
+import static com.friend.friend.domain.enums.PrivacyEnum.PRIVATE;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -91,31 +92,38 @@ public class QaController {
     @Operation(summary = "Q&A 작성")
     @PostMapping("/qa")
     public ResponseEntity writeQa(@RequestBody QaRequestDTO.writeQaDTO writeQaDTO){
-        Qa qa = new Qa();
-        qa.setTitle(writeQaDTO.getTitle());
-        qa.setPrivacy(writeQaDTO.getPrivacy());
-        qa.setBody(writeQaDTO.getBody());
-        qa.setAuthor(writeQaDTO.getAuthor());
-        qa.setPassword(passwordEncoder.encode(writeQaDTO.getPassword())); //비밀번호 암호화
-        qa.setStatus(INCOMPLETE);
-        qa.setAnswer(null);
+        try {
+            Qa qa = new Qa();
+            qa.setTitle(writeQaDTO.getTitle());
+            qa.setPrivacy(writeQaDTO.getPrivacy());
+            qa.setBody(writeQaDTO.getBody());
+            qa.setAuthor(writeQaDTO.getAuthor());
+            if (writeQaDTO.getPassword() != null && writeQaDTO.getPrivacy() == PRIVATE) {
+                qa.setPassword(passwordEncoder.encode(writeQaDTO.getPassword())); //비밀번호 암호화
+            }
+            qa.setStatus(INCOMPLETE);
+            qa.setAnswer(null);
 
-        Long qa_id = qaService.saveQa(qa);
-        Qa qa2 = qaService.getQa(qa_id);
+            Long qa_id = qaService.saveQa(qa);
+            Qa qa2 = qaService.getQa(qa_id);
 
-        QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
-                .id(qa2.getId())
-                .body(qa2.getBody())
-                .updatedAt(qa2.getUpdatedAt())
-                .title(qa2.getTitle())
-                .author(qa2.getAuthor())
-                .status(qa.getStatus())
-                .answer(qa.getAnswer())
-                .build();
-        if(getQaDTO!=null){
-            return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
-        }else{
-            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+            QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+                    .id(qa2.getId())
+                    .body(qa2.getBody())
+                    .updatedAt(qa2.getUpdatedAt())
+                    .title(qa2.getTitle())
+                    .author(qa2.getAuthor())
+                    .status(qa.getStatus())
+                    .answer(qa.getAnswer())
+                    .build();
+            if (getQaDTO != null) {
+                return new ResponseEntity(Response.success(getQaDTO), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
+            }
+        }
+        catch(IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
         }
     }
     /**
@@ -124,20 +132,24 @@ public class QaController {
     @Operation(summary = "Q&A 수정")
     @PutMapping("/Qa/{qaId}")
     public ResponseEntity updateReview(@RequestBody QaRequestDTO.updateQaDTO updateQaDTO,@PathVariable Long qaId){
-        Qa qa = qaService.updateQa(qaId, updateQaDTO);
-        QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
-                .id(qa.getId())
-                .body(qa.getBody())
-                .updatedAt(qa.getUpdatedAt())
-                .title(qa.getTitle())
-                .author(qa.getAuthor())
-                .status(qa.getStatus())
-                .answer(qa.getAnswer())
-                .build();
-        if(getQaDTO!=null){
-            return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
-        }else{
-            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        try {
+            Qa qa = qaService.updateQa(qaId, updateQaDTO);
+            QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+                    .id(qa.getId())
+                    .body(qa.getBody())
+                    .updatedAt(qa.getUpdatedAt())
+                    .title(qa.getTitle())
+                    .author(qa.getAuthor())
+                    .status(qa.getStatus())
+                    .answer(qa.getAnswer())
+                    .build();
+            if (getQaDTO != null) {
+                return new ResponseEntity(Response.success(getQaDTO), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
+            }
+        }catch(IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -150,9 +162,10 @@ public class QaController {
         try{
             SuccessResponseDto successResponseDto = qaService.deleteQa(qaId);
             return new ResponseEntity(Response.success(successResponseDto),HttpStatus.OK);
-        }catch (IllegalArgumentException ex){
-            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }catch(IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
         }
+
     }
 
     /**
@@ -164,8 +177,9 @@ public class QaController {
         try{
             QAResponseDTO.getQaDTO getQaDTO = qaService.answerQa(qaId, answer);
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
-        }catch (IllegalArgumentException ex){
-            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+        catch(IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
         }
 
     }

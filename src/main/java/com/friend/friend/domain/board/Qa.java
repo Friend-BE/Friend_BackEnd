@@ -5,6 +5,8 @@ import com.friend.friend.domain.enums.PrivacyEnum;
 import com.friend.friend.dto.QaRequestDTO;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Qa extends Board {
+    @Enumerated(EnumType.STRING)
     private AnswerStatusEnum status;
+    @Enumerated(EnumType.STRING)
     private PrivacyEnum privacy;
     private String answer;
     private String password;
