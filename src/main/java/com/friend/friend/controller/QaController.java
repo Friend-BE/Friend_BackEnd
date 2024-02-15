@@ -183,5 +183,59 @@ public class QaController {
         }
 
     }
+
+    /**
+     *"Q&A '나의 문의하기' 전체조회
+     */
+    @Operation(summary = "Q&A '나의 문의하기' 전체조회 ")
+    @GetMapping("/myQas/{memberId}")
+    public ResponseEntity getMyQas(@PathVariable(name = "memberId") Long id){
+        try{
+            List<Qa> MyQas = qaService.getAllMyQa(id);
+            Iterator<Qa> iteratorQa = MyQas.iterator();
+            List<QAResponseDTO.getQasDTO> returnQa = new ArrayList<>();
+            while(iteratorQa.hasNext()) {
+                Qa qa = iteratorQa.next();
+                returnQa.add(QAResponseDTO.getQasDTO.builder()
+                        .id(qa.getId())
+                        .privacy(qa.getPrivacy())
+                        .title(qa.getTitle())
+                        .author(qa.getAuthor())
+                        .updatedAt(qa.getUpdatedAt())
+                        .status(qa.getStatus())
+                        .build());
+            }
+            return new ResponseEntity(Response.success(returnQa), HttpStatus.OK);
+        }catch (IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * "Q&A '나의 문의하기' 상세 조회
+     */
+    @Operation(summary = "Q&A '나의 문의하기' 상세 조회")
+    @GetMapping("/qa/{qaId}/{memberId}")
+    public ResponseEntity getMyQa(@PathVariable Long qaId, @PathVariable Long memberId){
+        try {
+            Qa qa = qaService.getMyQa(qaId,memberId);
+            QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+                    .id(qa.getId())
+                    .body(qa.getBody())
+                    .updatedAt(qa.getUpdatedAt())
+                    .title(qa.getTitle())
+                    .author(qa.getAuthor())
+                    .status(qa.getStatus())
+                    .answer(qa.getAnswer())
+                    .build();
+            if (getQaDTO != null) {
+                return new ResponseEntity(Response.success(getQaDTO), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
+            }
+        }catch (IllegalArgumentException ex){
+            return new ResponseEntity(Response.failure(ex.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
     
 }

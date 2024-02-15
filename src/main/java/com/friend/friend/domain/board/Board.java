@@ -22,4 +22,6 @@ public class Board extends BaseEntity {
     private String body;    //본문
     private String author;    //작성자
 
+
+
 }

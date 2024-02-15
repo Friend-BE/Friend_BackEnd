@@ -1,5 +1,6 @@
 package com.friend.friend.service;
 
+import com.friend.friend.domain.Member;
 import com.friend.friend.domain.board.Qa;
 import com.friend.friend.domain.enums.PrivacyEnum;
 import com.friend.friend.dto.QAResponseDTO;
@@ -20,6 +21,8 @@ public class QaService {
 
     private final QaRepository qaRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberService memberService;
+
     @Transactional
     public Qa updateQa(Long qaId, QaRequestDTO.updateQaDTO updateQaDTO) {
         Qa qa = qaRepository.findById(qaId).orElseThrow(
@@ -33,6 +36,31 @@ public class QaService {
         List<Qa> Qas = qaRepository.findAll();
         return Qas;
     }
+
+    public List<Qa> getAllMyQa(Long id) {
+        Member member = memberService.findOne(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 Member 입니다")
+        );
+
+        List<Qa> MyQas = qaRepository.findByAuthor(member.getNickname());
+
+        return MyQas;
+    }
+    @Transactional
+    public Qa getMyQa(Long qaId, Long memberId) {
+        Qa qa = qaRepository.findById(qaId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 QA 입니다"));
+
+        Member member = memberService.findOne(memberId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 Member 입니다."));
+
+
+        if(qa.getAuthor().equals(member.getNickname())) {
+            return qa;
+        }
+        throw new IllegalArgumentException("해당 Member가 쓴 QA가 아닙니다.");
+    }
+
 
     @Transactional
     public Qa getQa(Long qaId) {
