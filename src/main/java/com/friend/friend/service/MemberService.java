@@ -4,11 +4,8 @@ import com.friend.friend.domain.Matching;
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.board.Board;
 import com.friend.friend.domain.board.Qa;
-import com.friend.friend.domain.enums.AccountStatusEnum;
-import com.friend.friend.domain.enums.GenderEnum;
-import com.friend.friend.dto.MemberResponseDTO;
-import com.friend.friend.dto.ProfileNameResponseDTO;
-import com.friend.friend.dto.SuccessResponseDto;
+import com.friend.friend.domain.enums.*;
+import com.friend.friend.dto.*;
 import com.friend.friend.repository.*;
 
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ import java.util.List;
 
 import java.util.Optional;
 
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -189,5 +187,56 @@ public class MemberService {
                     .build();
         }
         return responseDTO;
+    }
+
+    @Transactional
+    public ProfileEditResponseDTO editProfile(Long id, ProfileEditRequestDTO request) {
+        ProfileEditResponseDTO build = new ProfileEditResponseDTO();
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if(optionalMember.isPresent()){
+            Member member = optionalMember.get();
+
+            member.setNickname(request.getNickname());
+            member.setPhone(request.getPhone());
+            member.setBirthday(request.getBirthday());
+            if(request.getGender()==0){
+                member.setGender(GenderEnum.FEMALE);
+            }else{
+                member.setGender(GenderEnum.MALE);
+            }
+            member.setHeight(request.getHeight());
+            member.setRegion(request.getRegion());
+            member.setDepartment(request.getDepartment());
+            if(request.getDistance()==0){
+                member.setDistance(DistanceEnum.LONG);
+            }else{
+                member.setDistance(DistanceEnum.SHORT);
+            }
+            if(request.getSmoking()==0){
+                member.setSmoking(SmokingEnum.SMOKER);
+            }else{
+                member.setSmoking(SmokingEnum.NONSMOKER);
+            }
+
+            if(request.getDrinking()==0){
+                member.setDrinking(DrinkingEnum.DRINKER);
+            }else{
+                member.setDrinking(DrinkingEnum.NONDRINKER);
+            }
+            member.setIntroduction(request.getIntroduction());
+            member.setPreference(request.getPreference());
+            member.setIntroduction(request.getIntroduction());
+            member.setNonRegion(request.getNonRegion());
+            member.setNondepartment(request.getNondepartment());
+            member.setNonstudentid(request.getNonstudentid());
+            member.setNonage(request.getNonage());
+
+
+            build.setId(member.getId());
+            build.setNickname(member.getNickname());
+
+            memberRepository.save(member);
+        }
+        return build;
     }
 }

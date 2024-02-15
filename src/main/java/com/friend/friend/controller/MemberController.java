@@ -2,10 +2,7 @@ package com.friend.friend.controller;
 
 import com.friend.friend.common.Response;
 import com.friend.friend.domain.Member;
-import com.friend.friend.dto.MemberRequestDTO;
-import com.friend.friend.dto.MemberResponseDTO;
-import com.friend.friend.dto.ProfileNameResponseDTO;
-import com.friend.friend.dto.SuccessResponseDto;
+import com.friend.friend.dto.*;
 import com.friend.friend.service.FireBaseService;
 import com.friend.friend.service.MemberService;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -189,6 +186,16 @@ public class MemberController {
     public ResponseEntity getProfileName(@PathVariable Long id){
         try{
             ProfileNameResponseDTO response = memberService.getProfileName(id);
+            return new ResponseEntity(Response.success(response),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
+    @Operation(summary = "유저 정보 수정하기")
+    @PostMapping("myPage/editProfile/{id}")
+    public ResponseEntity editProfile(@PathVariable Long id,@RequestBody ProfileEditRequestDTO request){
+        try{
+            ProfileEditResponseDTO response = memberService.editProfile(id,request);
             return new ResponseEntity(Response.success(response),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
