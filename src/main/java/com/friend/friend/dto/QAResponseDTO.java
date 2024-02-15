@@ -40,4 +40,6 @@ public class QAResponseDTO {
         private String answer;
     }
 
+
+
 }
