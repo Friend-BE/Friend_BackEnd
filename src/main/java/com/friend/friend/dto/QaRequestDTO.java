@@ -17,7 +17,7 @@ public class QaRequestDTO {
         private String title;   //제목
         private String body; // 본문
         private String author;    //작성자
-        private PrivacyEnum privacy;
+        private PrivacyEnum privacy; //비밀글
         private String password; //비밀번호 - 있어야되지않나?
     }
 

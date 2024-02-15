@@ -37,6 +37,7 @@ public class QAResponseDTO {
         private LocalDateTime updatedAt; //작성시간
         private String author;    //작성자
         private AnswerStatusEnum status; //답변여부
+        private String answer;
     }
 
 }
