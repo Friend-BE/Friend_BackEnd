@@ -50,15 +50,12 @@ public class MatchingService {
     }
 
     public List<Matching> getMatchingById(Long id) {
-        List<Matching> matching = matchingRepository.findByMember_Id(id);
-
-        if(matching.isEmpty()){
-            throw new IllegalArgumentException("존재하지 않는 id 입니다");
+        Optional<List<Matching>> optionalMatchings = matchingRepository.findByMember_Id(id);
+        List<Matching> matchings = null;
+        if(optionalMatchings.isPresent()){
+            matchings = optionalMatchings.get();
         }
-
-
-
-        return matching;
+        return matchings;
     }
 
     /**
