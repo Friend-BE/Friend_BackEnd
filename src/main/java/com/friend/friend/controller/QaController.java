@@ -172,10 +172,10 @@ public class QaController {
      * Qa 답변하기
      */
     @Operation(summary = "Q&A 답변하기")
-    @PatchMapping("/qa/{qaId}")
-    public ResponseEntity createQaAnser(@RequestBody String answer, @PathVariable Long qaId){
+    @PatchMapping("/qa/{qaId}/{memberId}")
+    public ResponseEntity createQaAnser (@RequestBody String answer, @PathVariable Long qaId,@PathVariable Long memberId){
         try{
-            QAResponseDTO.getQaDTO getQaDTO = qaService.answerQa(qaId, answer);
+            QAResponseDTO.getQaDTO getQaDTO = qaService.answerQa(qaId, answer,memberId);
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
         }
         catch(IllegalArgumentException ex){
