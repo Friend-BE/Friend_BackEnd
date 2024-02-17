@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface MatchingRepository extends JpaRepository<Matching,Long> {
 
-    List<Matching> findByMember_Id(Long id);
+    Optional<List<Matching>> findByMember_Id(Long id);
 
     Optional<List<Matching>> findByMember_IdAndStatus(Long memberId, MatchingStatusEnum status);
 

@@ -120,27 +120,29 @@ public class MemberService {
      */
     @Transactional
     public MemberResponseDTO.successDeleteDTO deleteMember(String email) {
-
+        MemberResponseDTO.successDeleteDTO successDeleteMember = null;
         Member deletedMember = memberRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 멤버 입니다")
         );
 
         //만약 삭제할 유저가 글을 쓰거나, 매칭을 신청한 경우 데이터 삭제해야함
-        List<Matching> matchings = matchingRepository.findByMember_Id(deletedMember.getId());
-        for (Matching matching : matchings) {
-            matchingRepository.deleteById(matching.getId());
+        Optional<List<Matching>> optionalMatchings = matchingRepository.findByMember_Id(deletedMember.getId());
+        if(optionalMatchings.isPresent()) {
+            List<Matching> matchings = optionalMatchings.get();
+            for (Matching matching : matchings) {
+                matchingRepository.deleteById(matching.getId());
+            }
+            List<Board> allByAuthor = boardRepository.findAllByAuthor(deletedMember.getNickname());
+            boardRepository.deleteAll(allByAuthor);
+
+            memberRepository.deleteByEmail(email);
+
+            successDeleteMember = MemberResponseDTO.successDeleteDTO.builder()
+                    .id(deletedMember.getId())
+                    .success("success")
+                    .email(deletedMember.getEmail())
+                    .build();
         }
-        List<Board> allByAuthor = boardRepository.findAllByAuthor(deletedMember.getNickname());
-        boardRepository.deleteAll(allByAuthor);
-
-        memberRepository.deleteByEmail(email);
-
-        MemberResponseDTO.successDeleteDTO successDeleteMember = MemberResponseDTO.successDeleteDTO.builder()
-                .id(deletedMember.getId())
-                .success("success")
-                .email(deletedMember.getEmail())
-                .build();
-
         return successDeleteMember;
     }
 
