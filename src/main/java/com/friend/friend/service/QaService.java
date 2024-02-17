@@ -2,6 +2,7 @@ package com.friend.friend.service;
 
 import com.friend.friend.domain.Member;
 import com.friend.friend.domain.board.Qa;
+import com.friend.friend.domain.enums.AnswerStatusEnum;
 import com.friend.friend.domain.enums.PrivacyEnum;
 import com.friend.friend.dto.QAResponseDTO;
 import com.friend.friend.dto.QaRequestDTO;
@@ -91,6 +92,7 @@ public class QaService {
     public QAResponseDTO.getQaDTO answerQa(Long qaId, String answer){
         Qa qa = getQa(qaId);
         qa.setAnswer(answer);
+        qa.setStatus(AnswerStatusEnum.COMPLETE);
 
         QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
                 .id(qa.getId())
