@@ -19,6 +19,7 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;   //제목
+    @Column(columnDefinition = "TEXT")
     private String body;    //본문
     private String author;    //작성자
 
