@@ -243,8 +243,8 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDenyResponseDTO denyMember(Long id) {
-        Optional<Member> optionalMember = memberRepository.findById(id);
+    public MemberDenyResponseDTO denyMember(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
         MemberDenyResponseDTO response = new MemberDenyResponseDTO();
         if(optionalMember.isPresent()){
             Member member = optionalMember.get();

@@ -24,4 +24,5 @@ public interface MatchingRepository extends JpaRepository<Matching,Long> {
     Optional<List<Matching>> findByStatus(MatchingStatusEnum status);
     List<Matching> findAllByMember_IdOrderByCreatedAtDesc(Long memberId);
     List<Matching> findAllByStatusAndDateBetween(MatchingStatusEnum status, LocalDateTime start, LocalDateTime end);
+    Optional<List<Matching>> findByMember_IdOrderByCreatedAt(Long id);
 }
