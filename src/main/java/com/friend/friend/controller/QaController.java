@@ -87,6 +87,30 @@ public class QaController {
         }
     }
 
+    @Operation(summary = "Q&A 상세 조회, 비밀번호 무시")
+    @GetMapping("/qa/nopassword/{qaid}")
+    public ResponseEntity getQAWithoutPassword(@PathVariable Long qaid){
+        try{
+            Qa qa = qaService.getQa(qaid);
+            QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+                    .id(qa.getId())
+                    .body(qa.getBody())
+                    .updatedAt(qa.getUpdatedAt())
+                    .title(qa.getTitle())
+                    .author(qa.getAuthor())
+                    .status(qa.getStatus())
+                    .answer(qa.getAnswer())
+                    .build();
+            if (getQaDTO != null) {
+                return new ResponseEntity(Response.success(getQaDTO), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(Response.failure(), HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return  new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+
+    }
     /**
      * 사용자가 Qa 글쓰기
      */
