@@ -241,4 +241,17 @@ public class MemberService {
         }
         return build;
     }
+
+    @Transactional
+    public MemberDenyResponseDTO denyMember(Long id) {
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        MemberDenyResponseDTO response = new MemberDenyResponseDTO();
+        if(optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            member.setStatus(AccountStatusEnum.DENY);
+            response.setResult(true);
+            response.setId(member.getId());
+        }
+        return response;
+    }
 }
