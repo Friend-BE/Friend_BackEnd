@@ -47,10 +47,10 @@ public class ManagerController {
         }
     }
     @Operation(summary = "회원가입 거절")
-    @GetMapping("/manager/member/deny/{id}")
-    public ResponseEntity denyMember(@PathVariable Long id){
+    @GetMapping("/manager/member/deny/{email}")
+    public ResponseEntity denyMember(@PathVariable String email){
         try{
-            MemberDenyResponseDTO memberDenyResponse = memberService.denyMember(id);
+            MemberDenyResponseDTO memberDenyResponse = memberService.denyMember(email);
             return new ResponseEntity(Response.success(memberDenyResponse),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);

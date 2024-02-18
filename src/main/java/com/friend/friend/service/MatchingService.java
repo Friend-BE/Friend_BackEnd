@@ -29,9 +29,22 @@ public class MatchingService {
         try {
             Optional<Member> optionalMember = memberRepository.findById(userId);
             if (optionalMember.isPresent()) {
+                Optional<List<Matching>> byMemberId = matchingRepository.findByMember_IdOrderByCreatedAt(userId);
+                if (byMemberId.isPresent()) {
+                    List<Matching> matchings = byMemberId.get();
+                    if(!matchings.isEmpty()){
+                        Matching matching = matchings.get(0);
+                        LocalDateTime createdAt = matching.getCreatedAt();
+                        // Check if createdAt is within this week
+                        boolean isWithinThisWeek = isWithinThisWeek(createdAt);
+                        if (isWithinThisWeek) { //이번주에 신청을 한 경우
+                            return false;
+                        }
+                    }
+                }
+
                 Member member = optionalMember.get();
                 Matching matching = new Matching(matchingRequestDto);
-//                matching.setId(member.getId());
                 matching.setName(member.getNickname());
                 matching.setGender(member.getGender());
                 matching.setStatus(MatchingStatusEnum.INCOMPLETE);
@@ -48,6 +61,15 @@ public class MatchingService {
             return false;
         }
     }
+
+    private boolean isWithinThisWeek(LocalDateTime dateTime) {
+        LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0)
+                .minusDays(LocalDateTime.now().getDayOfWeek().getValue() - 1);
+        LocalDateTime endOfWeek = startOfWeek.plusDays(6).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+
+        return !dateTime.isBefore(startOfWeek) && !dateTime.isAfter(endOfWeek);
+    }
+
 
     public List<Matching> getMatchingById(Long id) {
         Optional<List<Matching>> optionalMatchings = matchingRepository.findByMember_Id(id);
