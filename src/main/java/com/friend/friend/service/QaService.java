@@ -6,6 +6,7 @@ import com.friend.friend.domain.enums.AnswerStatusEnum;
 import com.friend.friend.domain.enums.PrivacyEnum;
 import com.friend.friend.domain.enums.RoleEnum;
 import com.friend.friend.dto.QAResponseDTO;
+import com.friend.friend.dto.QaAnswerRequestDTO;
 import com.friend.friend.dto.QaRequestDTO;
 import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.repository.MemberRepository;
@@ -92,7 +93,7 @@ public class QaService {
 
 
     @Transactional
-    public QAResponseDTO.getQaDTO answerQa(Long qaId, String answer,Long memberId) throws IllegalArgumentException{
+    public QAResponseDTO.getQaDTO answerQa(Long qaId, QaAnswerRequestDTO answer, Long memberId) throws IllegalArgumentException{
         Qa qa = getQa(qaId);
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 Member입니다.")
@@ -101,10 +102,10 @@ public class QaService {
         if(!(member.getRole().equals(RoleEnum.ADMIN))){
             throw new IllegalArgumentException("관리자가 아닙니다");
         }
-        qa.setAnswer(answer);
+        qa.setAnswer(answer.getAnswer());
         qa.setStatus(AnswerStatusEnum.COMPLETE);
 
-        QAResponseDTO.getQaDTO getQaDTO = QAResponseDTO.getQaDTO.builder()
+        return QAResponseDTO.getQaDTO.builder()
                 .id(qa.getId())
                 .body(qa.getBody())
                 .updatedAt(qa.getUpdatedAt())
@@ -113,8 +114,6 @@ public class QaService {
                 .status(qa.getStatus())
                 .answer(qa.getAnswer())
                 .build();
-
-        return getQaDTO;
 
     }
 
