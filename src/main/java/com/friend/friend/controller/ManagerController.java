@@ -2,8 +2,10 @@ package com.friend.friend.controller;
 
 import com.friend.friend.common.Response;
 import com.friend.friend.dto.MatchListByDateDTO;
+import com.friend.friend.dto.MemberDenyResponseDTO;
 import com.friend.friend.dto.ProfileDetailDTO;
 import com.friend.friend.service.ManagerService;
+import com.friend.friend.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ManagerController {
 
     private final ManagerService managerService;
+    private final MemberService memberService;
     @Operation(summary = "관리자페이지-프로필카드 자세히보기")
     @GetMapping("/manager/profileDetail/{userId}")
     public ResponseEntity getProfileDetail(@PathVariable Long userId){
@@ -39,6 +42,16 @@ public class ManagerController {
         try{
             List<MatchListByDateDTO> matchListByDate = managerService.getMatchListByDate(date);
             return new ResponseEntity(Response.success(matchListByDate),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
+        }
+    }
+    @Operation(summary = "회원가입 거절")
+    @GetMapping("/manager/member/deny/{id}")
+    public ResponseEntity denyMember(@PathVariable Long id){
+        try{
+            MemberDenyResponseDTO memberDenyResponse = memberService.denyMember(id);
+            return new ResponseEntity(Response.success(memberDenyResponse),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(Response.failure(),HttpStatus.BAD_REQUEST);
         }
