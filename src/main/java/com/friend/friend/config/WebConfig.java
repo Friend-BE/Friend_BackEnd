@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://dani-5--rococo-dragon-c69f42.netlify.app",
                         "http://localhost:3000",
                         "https://localhost:3000",
-                        "https://127.0.0.1:3000"
+                        "https://127.0.0.1:3000",
+                        "https://dev--rococo-dragon-c69f42.netlify.app/"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE","PATCH")
         ;
