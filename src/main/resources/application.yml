@@ -25,8 +25,6 @@ server:
   port: 443
   ssl:
     enabled: true
-#    key-store: src/main/resources/keystore.p12
     key-store-password: Choi100~
     key-store-type: PKCS12
-    key-store: /home/ubuntu/FriendKeystore.p12
-#    key-alias: keystore
+    key-store: /home/ubuntu/key/keystore.p12
