@@ -3,6 +3,7 @@ package com.friend.friend.controller;
 import com.friend.friend.common.Response;
 import com.friend.friend.domain.board.Qa;
 import com.friend.friend.dto.QAResponseDTO;
+import com.friend.friend.dto.QaAnswerRequestDTO;
 import com.friend.friend.dto.QaRequestDTO;
 import com.friend.friend.dto.SuccessResponseDto;
 import com.friend.friend.service.QaService;
@@ -173,7 +174,7 @@ public class QaController {
      */
     @Operation(summary = "Q&A 답변하기")
     @PatchMapping("/qa/{qaId}/{memberId}")
-    public ResponseEntity createQaAnser (@RequestBody String answer, @PathVariable Long qaId,@PathVariable Long memberId){
+    public ResponseEntity createQaAnser (@RequestBody QaAnswerRequestDTO answer, @PathVariable Long qaId, @PathVariable Long memberId){
         try{
             QAResponseDTO.getQaDTO getQaDTO = qaService.answerQa(qaId, answer,memberId);
             return new ResponseEntity(Response.success(getQaDTO),HttpStatus.OK);
